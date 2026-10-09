@@ -4,1069 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f3eee4" />
-    <meta name="description" content="文型道場の雰囲気を受け継ぐ、1台で遊べる早出し英文カードゲームの試作版" />
-    <title>文型スピード | 試作版</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2213%22%20fill%3D%22%23244f3b%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M7%2049h50%22%20stroke%3D%22%23d1a852%22%20stroke-width%3D%223%22%2F%3E%0A%20%20%3Ctext%20x%3D%2232%22%20y%3D%2244%22%20text-anchor%3D%22middle%22%20fill%3D%22%23f8f1e5%22%20font-size%3D%2239%22%20font-weight%3D%22900%22%20font-family%3D%22serif%22%3E%E9%80%9F%3C%2Ftext%3E%0A%3C%2Fsvg%3E%0A" type="image/svg+xml" />
-    <style>
-:root {
-  color-scheme: dark;
-  --page: #121713;
-  --wood: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22960%22%20height%3D%22540%22%20viewBox%3D%220%200%20960%20540%22%3E%0A%20%20%3Cdefs%3E%3ClinearGradient%20id%3D%22wood%22%20x2%3D%221%22%20y2%3D%220%22%3E%3Cstop%20stop-color%3D%22%23131a16%22%2F%3E%3Cstop%20offset%3D%22.28%22%20stop-color%3D%22%231d2620%22%2F%3E%3Cstop%20offset%3D%22.57%22%20stop-color%3D%22%23151e18%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23202923%22%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%22grain%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.006%20.32%22%20numOctaves%3D%222%22%20seed%3D%228%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type%3D%22linear%22%20slope%3D%22.07%22%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22960%22%20height%3D%22540%22%20fill%3D%22url%28%23wood%29%22%2F%3E%3Crect%20width%3D%22960%22%20height%3D%22540%22%20filter%3D%22url%28%23grain%29%22%20opacity%3D%22.3%22%2F%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%236d816e%22%20opacity%3D%22.14%22%3E%3Cpath%20d%3D%22M32%200c-14%20120%2014%20242%201%20540M78%200c12%20160-5%20295%2012%20540M146%200c-8%20180%2016%20330-6%20540M219%200c12%20130-12%20285%208%20540M294%200c-9%20150%2010%20294-4%20540M355%200c15%20110-7%20260%2012%20540M432%200c-17%20170%2012%20312-6%20540M506%200c9%20127-10%20298%208%20540M580%200c-7%20157%2019%20305-8%20540M644%200c10%20138-8%20260%208%20540M712%200c-12%20160%2012%20300%200%20540M782%200c8%20120-14%20290%206%20540M858%200c-12%20154%2015%20330-2%20540M927%200c12%20140-8%20310%2014%20540%22%2F%3E%3C%2Fg%3E%0A%20%20%3Cg%20fill%3D%22%2391b39a%22%20opacity%3D%22.12%22%20font-family%3D%22Georgia%2Cserif%22%20font-weight%3D%22bold%22%3E%3Ctext%20x%3D%2272%22%20y%3D%22105%22%20font-size%3D%2252%22%3ESV%3C%2Ftext%3E%3Ctext%20x%3D%22546%22%20y%3D%2292%22%20font-size%3D%2234%22%3ESVOC%3C%2Ftext%3E%3Ctext%20x%3D%22745%22%20y%3D%22390%22%20font-size%3D%2258%22%3ESVO%3C%2Ftext%3E%3Ctext%20x%3D%22265%22%20y%3D%22475%22%20font-size%3D%2229%22%3ESVOO%3C%2Ftext%3E%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
-  --paper: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22960%22%20height%3D%22540%22%20viewBox%3D%220%200%20960%20540%22%3E%0A%20%20%3Cdefs%3E%3Cfilter%20id%3D%22fleck%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.13%22%20numOctaves%3D%223%22%20seed%3D%225%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type%3D%22linear%22%20slope%3D%22.06%22%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22960%22%20height%3D%22540%22%20fill%3D%22%23252c28%22%2F%3E%3Crect%20width%3D%22960%22%20height%3D%22540%22%20filter%3D%22url%28%23fleck%29%22%20opacity%3D%22.27%22%2F%3E%0A%20%20%3Cg%20stroke%3D%22%234d5d50%22%20fill%3D%22none%22%20opacity%3D%22.12%22%3E%3Cpath%20d%3D%22M0%20104h960M0%20270h960M0%20424h960%22%2F%3E%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
-  --panel: #202721;
-  --panel-soft: #283029;
-  --paper-base: #242b27;
-  --line: #465348;
-  --text: #f4f0e7;
-  --muted: #aaa99f;
-  --green: #4c8f6e;
-  --green-dark: #285b43;
-  --red: #ba5142;
-  --gold: #d1a852;
-  --noun: #2382ba;
-  --verb: #c94b42;
-  --adjective: #cf9a20;
-  --cyan: #18b8d6;
-  --shadow: 0 12px 30px rgba(0, 0, 0, .26);
-  --soft-shadow: 0 5px 14px rgba(0, 0, 0, .18);
-  font-family: Inter, "Hiragino Sans", "Yu Gothic", sans-serif;
-}
-html[data-theme="light"] {
-  color-scheme: light;
-  --page: #f3eee4;
-  --wood: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22960%22%20height%3D%22540%22%20viewBox%3D%220%200%20960%20540%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22wood%22%20x2%3D%221%22%20y2%3D%220%22%3E%3Cstop%20stop-color%3D%22%23f5f0e5%22%2F%3E%3Cstop%20offset%3D%22.24%22%20stop-color%3D%22%23fbf8f1%22%2F%3E%3Cstop%20offset%3D%22.52%22%20stop-color%3D%22%23f7f3ea%22%2F%3E%3Cstop%20offset%3D%22.75%22%20stop-color%3D%22%23fdfaf3%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f5f0e6%22%2F%3E%3C%2FlinearGradient%3E%0A%20%20%20%20%3Cfilter%20id%3D%22grain%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.006%20.32%22%20numOctaves%3D%222%22%20seed%3D%227%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type%3D%22linear%22%20slope%3D%22.055%22%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22960%22%20height%3D%22540%22%20fill%3D%22url%28%23wood%29%22%2F%3E%0A%20%20%3Crect%20width%3D%22960%22%20height%3D%22540%22%20filter%3D%22url%28%23grain%29%22%20opacity%3D%22.4%22%2F%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23b9a887%22%20opacity%3D%22.12%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M32%200c-14%20120%2014%20242%201%20540M78%200c12%20160-5%20295%2012%20540M146%200c-8%20180%2016%20330-6%20540M219%200c12%20130-12%20285%208%20540M294%200c-9%20150%2010%20294-4%20540M355%200c15%20110-7%20260%2012%20540M432%200c-17%20170%2012%20312-6%20540M506%200c9%20127-10%20298%208%20540M580%200c-7%20157%2019%20305-8%20540M644%200c10%20138-8%20260%208%20540M712%200c-12%20160%2012%20300%200%20540M782%200c8%20120-14%20290%206%20540M858%200c-12%20154%2015%20330-2%20540M927%200c12%20140-8%20310%2014%20540%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Cg%20fill%3D%22%23315b45%22%20opacity%3D%22.10%22%20font-family%3D%22Georgia%2Cserif%22%20font-weight%3D%22bold%22%3E%3Ctext%20x%3D%2272%22%20y%3D%22105%22%20font-size%3D%2252%22%3ESV%3C%2Ftext%3E%3Ctext%20x%3D%22546%22%20y%3D%2292%22%20font-size%3D%2234%22%3ESVOC%3C%2Ftext%3E%3Ctext%20x%3D%22745%22%20y%3D%22390%22%20font-size%3D%2258%22%3ESVO%3C%2Ftext%3E%3Ctext%20x%3D%22265%22%20y%3D%22475%22%20font-size%3D%2229%22%3ESVOO%3C%2Ftext%3E%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
-  --paper: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22960%22%20height%3D%22540%22%20viewBox%3D%220%200%20960%20540%22%3E%0A%20%20%3Cdefs%3E%3Cfilter%20id%3D%22fleck%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.13%22%20numOctaves%3D%223%22%20seed%3D%224%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type%3D%22linear%22%20slope%3D%22.065%22%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22960%22%20height%3D%22540%22%20fill%3D%22%23f7f7f2%22%2F%3E%3Crect%20width%3D%22960%22%20height%3D%22540%22%20filter%3D%22url%28%23fleck%29%22%20opacity%3D%22.34%22%2F%3E%0A%20%20%3Cg%20stroke%3D%22%23d6d6ca%22%20fill%3D%22none%22%20opacity%3D%22.16%22%3E%3Cpath%20d%3D%22M0%20104h960M0%20270h960M0%20424h960%22%2F%3E%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
-  --panel: #efe3cf;
-  --panel-soft: #f8f1e5;
-  --paper-base: #f4f4f0;
-  --line: #c8b99f;
-  --text: #292a27;
-  --muted: #716b61;
-  --green: #3d765a;
-  --green-dark: #244f3b;
-  --red: #ac4637;
-  --gold: #9d721b;
-  --shadow: 0 12px 28px rgba(73, 59, 39, .13);
-  --soft-shadow: 0 5px 12px rgba(73, 59, 39, .12);
-}
-* { box-sizing: border-box; }
-html { min-width: 320px; }
-body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
-  color: var(--text);
-  background: var(--page) var(--wood) center top / 960px 540px repeat;
-}
-button { font: inherit; -webkit-tap-highlight-color: transparent; }
-button:focus-visible { outline: 3px solid rgba(24, 184, 214, .66); outline-offset: 2px; }
-button:disabled { cursor: not-allowed; opacity: .5; }
-h1, h2, h3, p { margin-top: 0; }
-.is-hidden, [hidden] { display: none !important; }
-.app-shell { width: min(1240px, calc(100% - 24px)); margin: 0 auto; padding: 10px 0 22px; }
-.topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 54px; margin-bottom: 10px; padding: 0 2px 9px; border-bottom: 1px solid var(--line); }
-.brand-lockup h1 { display: flex; align-items: start; margin: 0; font: 900 clamp(1.65rem, 3.8vw, 2.55rem)/.95 "Yu Mincho", "Hiragino Mincho ProN", serif; letter-spacing: -.065em; }
-.brand-lockup h1 span { display: grid; place-items: center; width: 1.3rem; height: 1.3rem; margin: 0 0 0 7px; border: 1px solid var(--red); border-radius: 50%; color: var(--red); font: 700 .58rem/1 Inter, sans-serif; letter-spacing: 0; }
-.brand-lockup p { margin: 4px 0 0; color: var(--muted); font-size: .64rem; font-weight: 800; letter-spacing: .14em; }
-.header-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 6px; }
-.button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 39px; padding: 0 13px; border: 1px solid transparent; border-radius: 8px; color: var(--text); font-weight: 850; white-space: nowrap; cursor: pointer; transition: transform .15s, box-shadow .15s, background .15s; }
-.button:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 7px 16px rgba(0,0,0,.16); }
-.button:active:not(:disabled) { transform: translateY(0); }
-.button-ghost { border-color: var(--line); background: var(--panel-soft); box-shadow: var(--soft-shadow); }
-html[data-theme="light"] .button-ghost { background: #fffefd; }
-.button-primary { border-color: var(--green-dark); color: #fff; background: var(--green); box-shadow: 0 7px 16px rgba(36,79,59,.2); }
-.button-ghost[aria-pressed="true"] { border-color: var(--green); color: var(--green); }
-.button-large { min-height: 50px; font-size: 1rem; }
-
-.setup-card, .player-zone { border: 1px solid var(--line); background: var(--panel) var(--wood) center / 960px 540px repeat; box-shadow: var(--shadow); }
-.setup-card { position: relative; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(275px, .7fr); gap: clamp(24px, 5vw, 70px); min-height: 440px; padding: clamp(28px, 5vw, 64px); overflow: hidden; border-radius: 14px; }
-.setup-card::before { content: "速"; position: absolute; right: 5%; bottom: -.2em; color: rgba(61,118,90,.10); font: 900 clamp(8rem, 20vw, 14rem)/1 "Yu Mincho", serif; pointer-events: none; }
-.setup-copy, .setup-controls { position: relative; z-index: 1; align-self: center; }
-.eyebrow { margin-bottom: 12px; color: var(--green); font-size: .72rem; font-weight: 900; letter-spacing: .13em; }
-.setup-copy h2 { margin: 0 0 18px; font: 900 clamp(2.15rem, 5vw, 4.4rem)/1.15 "Yu Mincho", "Hiragino Mincho ProN", serif; letter-spacing: -.055em; }
-.setup-copy h2 em { color: var(--green-dark); font-style: normal; }
-html[data-theme="dark"] .setup-copy h2 em { color: #79bb98; }
-.setup-copy p { max-width: 580px; color: var(--muted); font-weight: 650; line-height: 1.8; }
-.setup-feature { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 23px; }
-.setup-feature span { padding: 6px 9px; border: 1px solid var(--line); border-radius: 99px; background: var(--panel-soft); color: var(--green); font-size: .72rem; font-weight: 850; }
-.setup-controls { display: grid; gap: 13px; padding: 21px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel-soft); box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), var(--soft-shadow); }
-.control-group { display: grid; gap: 6px; }
-.control-label { color: var(--muted); font-size: .73rem; font-weight: 900; }
-.segmented { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; padding: 5px; border: 1px solid var(--line); border-radius: 9px; background: rgba(0,0,0,.04); }
-.segmented-three { grid-template-columns: repeat(3, 1fr); }
-.segmented button { min-height: 36px; padding: 4px; border: 0; border-radius: 6px; color: var(--muted); background: transparent; font-size: .83rem; font-weight: 900; cursor: pointer; }
-.segmented button.is-selected { color: #fff; background: var(--green); box-shadow: var(--soft-shadow); }
-.setup-note { margin: 0; color: var(--muted); font-size: .7rem; line-height: 1.5; text-align: center; }
-
-.game-screen { display: grid; gap: 7px; }
-.scorebar { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: stretch; }
-.score-chip, .clock-chip { display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 46px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-soft); box-shadow: var(--soft-shadow); }
-.score-chip-top { border-left: 4px solid var(--red); }
-.score-chip-bottom { border-right: 4px solid var(--green); }
-.score-chip strong { color: var(--green-dark); font: 900 1.45rem/1 Georgia, serif; }
-html[data-theme="dark"] .score-chip strong { color: #8acaac; }
-.score-chip small { color: var(--muted); font-size: .64rem; font-weight: 750; }
-.score-name { font-size: .82rem; font-weight: 900; }
-.clock-chip { gap: 4px; background: #f6ead3; color: #60461e; font-size: .7rem; font-weight: 850; }
-html[data-theme="dark"] .clock-chip { background: #423522; color: #f5d58f; }
-.clock-chip strong { min-width: 2.6em; color: var(--red); font: 900 1.45rem/1 Georgia, serif; text-align: center; }
-.clock-chip.is-urgent { border-color: var(--red); box-shadow: 0 0 0 2px rgba(186,81,66,.18); }
-
-.player-zone { padding: 8px 14px 9px; border-radius: 11px; }
-.player-top { border-top: 3px solid var(--red); }
-.player-bottom { border-bottom: 3px solid var(--green); }
-.zone-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 26px; }
-.zone-heading > div { display: flex; align-items: center; gap: 8px; }
-.zone-heading strong { font: 900 1.08rem/1 "Yu Mincho", serif; }
-.player-emblem { display: grid; place-items: center; width: 27px; height: 25px; border-radius: 4px; color: #fff; background: var(--green); font-size: .7rem; font-weight: 900; }
-.player-top .player-emblem { background: var(--red); }
-.zone-hint, .lock-note { color: var(--muted); font-size: .69rem; font-weight: 800; }
-.lock-note { color: var(--red); }
-.hand { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
-.hand-card, .field-card { --card-ink: var(--noun); position: relative; display: grid; grid-template-rows: auto 1fr auto auto; gap: 4px; overflow: hidden; border: 2px solid var(--card-ink); color: #1e2d32; background: #f5fbff url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22960%22%20height%3D%22540%22%20viewBox%3D%220%200%20960%20540%22%3E%0A%20%20%3Cdefs%3E%3Cfilter%20id%3D%22fleck%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.13%22%20numOctaves%3D%223%22%20seed%3D%224%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type%3D%22linear%22%20slope%3D%22.065%22%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22960%22%20height%3D%22540%22%20fill%3D%22%23f7f7f2%22%2F%3E%3Crect%20width%3D%22960%22%20height%3D%22540%22%20filter%3D%22url%28%23fleck%29%22%20opacity%3D%22.34%22%2F%3E%0A%20%20%3Cg%20stroke%3D%22%23d6d6ca%22%20fill%3D%22none%22%20opacity%3D%22.16%22%3E%3Cpath%20d%3D%22M0%20104h960M0%20270h960M0%20424h960%22%2F%3E%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A") center / 600px 338px; box-shadow: 0 5px 11px rgba(35,45,43,.16); }
-.hand-card { min-width: 0; min-height: 105px; padding: 7px; border-radius: 9px; text-align: left; cursor: pointer; transition: transform .13s, box-shadow .13s, border-color .13s; touch-action: manipulation; }
-.hand-card:hover:not(:disabled) { transform: translateY(-2px); }
-.hand-card.is-selected { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(24,184,214,.25), 0 8px 15px rgba(0,0,0,.18); transform: translateY(-3px); }
-.hand-card.is-ready { border-color: var(--green); box-shadow: 0 0 0 3px rgba(61,118,90,.2); }
-.hand-card.noun, .field-card.noun { --card-ink: var(--noun); background-color: #eef8fd; }
-.hand-card.verb, .field-card.verb { --card-ink: var(--verb); background-color: #fff0ed; }
-.hand-card.adjective, .field-card.adjective { --card-ink: var(--adjective); background-color: #fff8dc; }
-.card-type { justify-self: start; padding: 2px 5px; border-radius: 4px; color: #fff; background: var(--card-ink); font-size: .52rem; font-weight: 900; letter-spacing: .03em; }
-.card-word { align-self: center; overflow-wrap: anywhere; color: #17272c; font: 700 clamp(.76rem, 1.6vw, 1.12rem)/1.1 Georgia, "Times New Roman", serif; text-align: center; }
-.card-gloss { color: #526367; font-size: .56rem; line-height: 1.2; text-align: center; }
-.card-roles { overflow: hidden; border-top: 1px solid color-mix(in srgb, var(--card-ink) 25%, transparent); padding-top: 3px; color: var(--card-ink); font-size: .5rem; font-weight: 900; text-overflow: ellipsis; white-space: nowrap; }
-.placement-controls { display: flex; align-items: center; gap: 7px; margin-top: 7px; }
-.lane-controls { display: flex; flex: 0 0 auto; gap: 4px; }
-.lane-button, .target-button { min-height: 34px; border: 1px solid var(--line); border-radius: 6px; color: var(--text); background: var(--panel-soft); font-weight: 900; cursor: pointer; touch-action: manipulation; }
-.lane-button { min-width: 58px; padding: 0 8px; font-size: .68rem; }
-.lane-button.is-active { border-color: var(--green); color: #fff; background: var(--green); }
-.target-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; flex: 1 1 auto; }
-.target-button { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: .8rem; }
-.target-button:hover:not(:disabled) { border-color: var(--green); background: color-mix(in srgb, var(--green) 16%, var(--panel-soft)); }
-.target-button kbd { padding: 1px 4px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); font-size: .6rem; }
-.target-button.is-ready { border-color: var(--green); background: color-mix(in srgb, var(--green) 20%, var(--panel-soft)); }
-
-.table-area { position: relative; padding: 9px 12px 10px; border: 7px solid var(--green-dark); border-radius: 14px; background: var(--paper-base) var(--paper) center / 960px 540px repeat; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), var(--shadow); }
-.game-screen.is-ready .table-area { border-color: var(--gold); }
-.table-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 26px; margin-bottom: 6px; }
-.table-heading strong { font: 900 .9rem/1 "Yu Mincho", serif; }
-.table-heading span { color: var(--muted); font-size: .73rem; font-weight: 800; text-align: right; }
-.boards { display: grid; gap: 7px; }
-.board-lane { min-width: 0; padding: 7px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,.5); }
-html[data-theme="dark"] .board-lane { background: rgba(0,0,0,.16); }
-.board-lane.is-complete { border-color: var(--gold); box-shadow: inset 0 0 0 2px rgba(209,168,82,.3); }
-.lane-heading { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin-bottom: 5px; }
-.lane-heading strong { color: var(--green); font-size: .64rem; font-weight: 950; }
-.lane-heading span { overflow: hidden; color: var(--muted); font: 700 .78rem/1.2 Georgia, serif; text-overflow: ellipsis; white-space: nowrap; }
-.sentence-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
-.sentence-slot { display: grid; grid-template-rows: auto 1fr; gap: 4px; min-width: 0; min-height: 83px; padding: 5px; overflow: hidden; border: 1px dashed #a8aaa4; border-radius: 8px; background: #ececea; }
-html[data-theme="dark"] .sentence-slot { border-color: #59615c; background: #303633; }
-.slot-heading { display: flex; align-items: start; justify-content: space-between; gap: 2px; }
-.slot-code { color: var(--text); font-size: .7rem; font-weight: 950; white-space: nowrap; }
-.slot-name { color: var(--muted); font-size: .51rem; font-weight: 850; text-align: right; }
-.slot-watermark { align-self: center; color: rgba(51,56,51,.12); font: 800 clamp(1.8rem, 4vw, 3.3rem)/1 Georgia, serif; letter-spacing: -.08em; text-align: center; user-select: none; }
-html[data-theme="dark"] .slot-watermark { color: rgba(232,238,232,.1); }
-.field-card { min-width: 0; min-height: 58px; padding: 4px; border-radius: 6px; }
-.field-card .card-type { font-size: .42rem; padding: 1px 3px; }
-.field-card .card-word { font-size: clamp(.65rem, 1.4vw, .95rem); }
-.field-card .card-gloss { font-size: .46rem; }
-.field-card .card-roles { display: none; }
-.owner-tag { position: absolute; top: 2px; right: 3px; color: var(--card-ink); font-size: .45rem; font-weight: 900; }
-.last-sentence { min-height: 28px; margin-top: 7px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: rgba(255,255,255,.5); font-size: .73rem; text-align: center; }
-html[data-theme="dark"] .last-sentence { background: rgba(0,0,0,.16); }
-.last-sentence strong { color: var(--green-dark); font-family: Georgia, serif; }
-html[data-theme="dark"] .last-sentence strong { color: #8acaac; }
-.last-sentence span { color: var(--muted); }
-.keyboard-help { margin: 0; color: var(--muted); font-size: .65rem; font-weight: 700; text-align: center; }
-
-.toast-region { position: fixed; z-index: 50; left: 50%; bottom: 15px; display: grid; gap: 4px; width: max-content; max-width: min(94vw, 470px); transform: translateX(-50%); pointer-events: none; }
-.toast { padding: 8px 14px; border: 1px solid var(--line); border-left: 5px solid var(--green); border-radius: 8px; background: var(--panel-soft); box-shadow: var(--shadow); font-size: .75rem; font-weight: 850; text-align: center; animation: toastIn .18s both; }
-.toast.bad { border-left-color: var(--red); }
-.toast.gold { border-left-color: var(--gold); }
-.countdown-overlay { position: fixed; z-index: 80; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text); background: rgba(15,24,19,.75); backdrop-filter: blur(3px); text-align: center; }
-.countdown-overlay span { padding: 9px 30px; border-radius: 99px; color: var(--green-dark); background: #f6eedf; font: 900 clamp(1.5rem, 5vw, 2.2rem)/1.2 "Yu Mincho", serif; }
-.countdown-overlay strong { color: #fff; font: 900 clamp(3rem, 10vw, 6rem)/1 "Yu Mincho", serif; text-shadow: 0 5px 20px #000; animation: slam .6s both; }
-.modal-backdrop { position: fixed; z-index: 90; inset: 0; display: grid; place-items: center; padding: 12px; background: rgba(10,17,13,.7); }
-.modal { position: relative; width: min(620px, 100%); max-height: min(88vh, 820px); overflow-y: auto; padding: clamp(22px, 4vw, 34px); border: 7px solid var(--green-dark); border-radius: 15px; background: var(--paper-base) var(--paper) center / 960px 540px repeat; box-shadow: 0 25px 60px rgba(0,0,0,.4); }
-.modal h2 { margin-bottom: 15px; font: 900 1.6rem/1.2 "Yu Mincho", serif; }
-.modal-close { position: absolute; top: 9px; right: 9px; width: 35px; height: 35px; border: 1px solid var(--line); border-radius: 7px; color: var(--text); background: var(--panel-soft); font-size: 1.3rem; cursor: pointer; }
-.rules-list { display: grid; gap: 9px; padding-left: 1.5em; font-size: .85rem; line-height: 1.65; }
-.rules-list li::marker { color: var(--green); font-weight: 900; }
-.rules-note { margin: 16px 0 0; color: var(--muted); font-size: .78rem; line-height: 1.65; }
-.result-modal { text-align: center; }
-.result-kicker { margin-bottom: 8px; color: var(--green); font-size: .7rem; font-weight: 900; letter-spacing: .2em; }
-.result-winner { color: var(--green-dark); font: 900 1.4rem/1.25 "Yu Mincho", serif; }
-html[data-theme="dark"] .result-winner { color: #8acaac; }
-.result-scores { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 14px 0; }
-.result-score { padding: 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel-soft); }
-.result-score strong { display: block; color: var(--green); font: 900 2rem/1 Georgia, serif; }
-.result-score span, .result-score small { display: block; font-size: .75rem; font-weight: 850; }
-.result-score small { margin-top: 5px; color: var(--muted); }
-.result-history { text-align: left; }
-.result-history h3 { margin-bottom: 6px; font: 900 1rem/1.2 "Yu Mincho", serif; }
-.result-history ol { max-height: 160px; margin: 0; padding: 8px 8px 8px 28px; overflow-y: auto; border: 1px solid var(--line); border-radius: 7px; background: rgba(255,255,255,.32); font-size: .78rem; }
-.result-history li { margin-bottom: 3px; }
-.result-actions { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
-@keyframes toastIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slam { from { opacity: 0; transform: scale(1.7); } to { opacity: 1; transform: scale(1); } }
-
-@media (max-width: 760px) {
-  .setup-card { grid-template-columns: 1fr; gap: 18px; padding: 26px; }
-  .setup-copy h2 { font-size: clamp(2rem, 7vw, 3.3rem); }
-  .topbar { flex-wrap: wrap; }
-  .header-actions { width: 100%; justify-content: flex-start; }
-  .score-chip { gap: 4px; }
-  .score-chip small { display: none; }
-  .keyboard-help { display: none; }
-}
-@media (max-width: 520px) {
-  .app-shell { width: calc(100% - 12px); padding-top: 5px; }
-  .topbar { gap: 4px; margin-bottom: 6px; padding-bottom: 5px; }
-  .brand-lockup h1 { font-size: 1.47rem; }
-  .brand-lockup p { display: none; }
-  .header-actions { width: auto; margin-left: auto; gap: 3px; }
-  .header-actions .button { min-height: 29px; padding: 0 6px; font-size: .69rem; }
-  .header-actions .button span { display: none; }
-  .setup-card { min-height: unset; padding: 19px; }
-  .setup-copy p { font-size: .85rem; }
-  .setup-feature { margin-top: 10px; }
-  .setup-controls { padding: 13px; }
-  .game-screen { gap: 5px; }
-  .scorebar { gap: 3px; }
-  .score-chip, .clock-chip { min-height: 37px; padding: 3px 4px; }
-  .score-name { font-size: .64rem; }
-  .score-chip strong, .clock-chip strong { font-size: 1.05rem; }
-  .clock-chip span { display: none; }
-  .player-zone { padding: 5px 6px 6px; }
-  .zone-heading { min-height: 23px; }
-  .zone-heading strong { font-size: .86rem; }
-  .zone-hint { display: none; }
-  .hand { gap: 4px; margin-top: 3px; }
-  .hand-card { min-height: 81px; padding: 4px; border-width: 1.5px; }
-  .card-type { padding: 1px 3px; font-size: .43rem; }
-  .card-word { font-size: .69rem; }
-  .card-gloss { font-size: .43rem; }
-  .card-roles { font-size: .42rem; }
-  .placement-controls { gap: 3px; margin-top: 4px; }
-  .lane-button, .target-button { min-height: 29px; }
-  .lane-button { min-width: 40px; padding: 0 3px; font-size: .57rem; }
-  .target-controls { gap: 3px; }
-  .target-button { gap: 2px; font-size: .68rem; }
-  .target-button kbd { display: none; }
-  .table-area { padding: 5px; border-width: 5px; }
-  .table-heading { min-height: 21px; margin-bottom: 3px; }
-  .table-heading strong, .table-heading span { font-size: .61rem; }
-  .boards { gap: 3px; }
-  .board-lane { padding: 3px; }
-  .lane-heading { margin-bottom: 2px; }
-  .lane-heading span { font-size: .61rem; }
-  .sentence-board { gap: 3px; }
-  .sentence-slot { min-height: 61px; padding: 3px; }
-  .slot-code { font-size: .56rem; }
-  .slot-name { display: none; }
-  .slot-watermark { font-size: 1.6rem; }
-  .field-card { min-height: 45px; padding: 2px; }
-  .field-card .card-word { font-size: .61rem; }
-  .field-card .card-gloss { display: none; }
-  .last-sentence { min-height: 22px; margin-top: 3px; padding: 3px; font-size: .57rem; }
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
-}
-
-</style>
-    <script>
-"use strict";
-
-document.addEventListener("DOMContentLoaded", () => {
-  const ROUND_MS = 90_000;
-  const CARD_POINTS = 10;
-  const COMPLETE_POINTS = 30;
-  const MISPLAY_POINTS = 15;
-  const MISPLAY_LOCK_MS = 700;
-  const COMPLETION_HOLD_MS = 650;
-  const SLOT_ORDER = ["S", "V", "O1", "X"];
-  const SLOT_META = {
-    S: { code: "S", name: "主語" },
-    V: { code: "V", name: "動詞" },
-    O1: { code: "O/C", name: "目的語・補語" },
-    X: { code: "O₂/C", name: "目的語2・補語" },
-  };
-  const PATTERNS = {
-    SV: { slots: ["S", "V"], roles: { S: "S", V: "V" }, label: "第1文型" },
-    SVC: { slots: ["S", "V", "O1"], roles: { S: "S", V: "V", O1: "C" }, label: "第2文型" },
-    SVO: { slots: ["S", "V", "O1"], roles: { S: "S", V: "V", O1: "O" }, label: "第3文型" },
-    SVOO: { slots: ["S", "V", "O1", "X"], roles: { S: "S", V: "V", O1: "O", X: "O₂" }, label: "第4文型" },
-    SVOC: { slots: ["S", "V", "O1", "X"], roles: { S: "S", V: "V", O1: "O", X: "C" }, label: "第5文型" },
-  };
-  const PATTERN_ORDER = ["SV", "SVC", "SVO", "SVOO", "SVOC"];
-  const CPU_SPEED = {
-    easy: [1650, 2250],
-    normal: [950, 1450],
-    hard: [450, 750],
-  };
-  const KEY_MAP = [
-    { cards: ["KeyA", "KeyS", "KeyD", "KeyF"], slots: ["KeyQ", "KeyW", "KeyE", "KeyR"], lane: "KeyG", labels: ["Q", "W", "E", "R"] },
-    { cards: ["KeyH", "KeyJ", "KeyK", "KeyL"], slots: ["KeyY", "KeyU", "KeyI", "KeyO"], lane: "Semicolon", labels: ["Y", "U", "I", "O"] },
-  ];
-
-  const NOUNS = [
-    { label: "the train", gloss: "その列車", entity: "train", reflexive: "itself" },
-    { label: "the station", gloss: "その駅", entity: "station", reflexive: "itself" },
-    { label: "the camera", gloss: "そのカメラ", entity: "camera", reflexive: "itself" },
-    { label: "the book", gloss: "その本", entity: "book", reflexive: "itself" },
-    { label: "the cat", gloss: "その猫", entity: "cat", reflexive: "itself" },
-    { label: "the dog", gloss: "その犬", entity: "dog", reflexive: "itself" },
-    { label: "the door", gloss: "そのドア", entity: "door", reflexive: "itself" },
-    { label: "the teacher", gloss: "その先生", entity: "teacher", reflexive: "themself" },
-    { label: "Tom", gloss: "トム", entity: "tom", reflexive: "himself" },
-    { label: "Emily", gloss: "エミリー", entity: "emily", reflexive: "herself" },
-    { label: "my friend", gloss: "私の友人", entity: "friend", reflexive: "themself" },
-    { label: "the students", gloss: "その生徒たち", entity: "students", number: "plural", reflexive: "themselves" },
-    { label: "I", gloss: "私", entity: "speaker", person: 1, pronoun: true, forms: { subject: "I", object: "me", reflexive: "myself" } },
-    { label: "you", gloss: "あなた", entity: "listener", person: 2, pronoun: true, forms: { subject: "you", object: "you", reflexive: "yourself" } },
-    { label: "we", gloss: "私たち", entity: "speaker-group", person: 1, number: "plural", pronoun: true, forms: { subject: "we", object: "us", reflexive: "ourselves" } },
-    { label: "they", gloss: "彼ら・彼女ら", entity: "other-group", number: "plural", pronoun: true, forms: { subject: "they", object: "them", reflexive: "themselves" } },
-  ];
-  const ADJECTIVES = [
-    ["safe", "安全な"], ["ready", "準備ができた"], ["happy", "幸せな"], ["clean", "清潔な"],
-    ["busy", "忙しい"], ["quiet", "静かな"], ["famous", "有名な"], ["strong", "強い"],
-    ["empty", "空の"], ["open", "開いた"], ["warm", "暖かい"], ["tired", "疲れた"],
-  ];
-  const VERBS = [
-    ["run", "runs", "走る", "SV"], ["sleep", "sleeps", "眠る", "SV"],
-    ["laugh", "laughs", "笑う", "SV"], ["arrive", "arrives", "到着する", "SV"],
-    ["be", "is", "〜である", "SVC", ["adjective", "noun"]],
-    ["become", "becomes", "〜になる", "SVC", ["adjective", "noun"]],
-    ["seem", "seems", "〜のように見える", "SVC", ["adjective"]],
-    ["look", "looks", "〜に見える", "SVC", ["adjective"]],
-    ["love", "loves", "〜を愛する", "SVO"], ["watch", "watches", "〜を見る", "SVO"],
-    ["use", "uses", "〜を使う", "SVO"], ["visit", "visits", "〜を訪れる", "SVO"],
-    ["give", "gives", "〜に…を与える", "SVOO"],
-    ["show", "shows", "〜に…を見せる", "SVOO"],
-    ["teach", "teaches", "〜に…を教える", "SVOO"],
-    ["make", "makes", "〜を…にする", "SVOC", ["adjective", "noun"]],
-    ["keep", "keeps", "〜を…のままにする", "SVOC", ["adjective", "noun"]],
-    ["call", "calls", "〜を…と呼ぶ", "SVOC", ["noun"]],
-    ["find", "finds", "〜が…だと分かる", "SVOC", ["adjective", "noun"]],
-  ];
-
-  const $ = (selector) => document.querySelector(selector);
-  const elements = {
-    setup: $("#setupScreen"), game: $("#gameScreen"), result: $("#resultModal"),
-    boards: $("#boards"), topHand: $("#handTop"), bottomHand: $("#handBottom"),
-    topTargets: $("#targetsTop"), bottomTargets: $("#targetsBottom"),
-    topLanes: $("#lanesTop"), bottomLanes: $("#lanesBottom"),
-    time: $("#timeLeft"), topScore: $("#scoreTop"), bottomScore: $("#scoreBottom"),
-    phaseMessage: $("#phaseMessage"), lastSentence: $("#lastSentence"),
-    hintTop: $("#hintTop"), hintBottom: $("#hintBottom"), lockTop: $("#lockTop"), lockBottom: $("#lockBottom"),
-    toast: $("#toastRegion"), overlay: $("#countdownOverlay"), lead: $("#countdownLead"), word: $("#countdownWord"),
-  };
-  const state = {
-    settings: { mode: "human", boardCount: 1, level: "normal" },
-    phase: "setup", pausedPhase: null, players: [], fields: [],
-    selectedLane: [0, 0], pending: [null, null], priority: 0,
-    remainingMs: ROUND_MS, playStartedAt: 0, history: [], lastSentence: null,
-    epoch: 0, serial: 0, timers: [], cpuTimer: null, tickTimer: null,
-  };
-
-  function emptyField() { return { S: null, V: null, O1: null, X: null, locked: false }; }
-  function shuffle(items) {
-    const result = [...items];
-    for (let i = result.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [result[i], result[j]] = [result[j], result[i]];
-    }
-    return result;
-  }
-  function buildStock() {
-    const pool = [];
-    for (const item of NOUNS) for (let copy = 0; copy < 2; copy += 1) {
-      pool.push({ type: "noun", person: 3, number: "singular", pronoun: false, ...item, id: ++state.serial });
-    }
-    for (const [label, gloss] of ADJECTIVES) pool.push({ type: "adjective", label, gloss, id: ++state.serial });
-    for (const [label, third, gloss, pattern, complements] of VERBS) {
-      pool.push({ type: "verb", label, third, gloss, patterns: [pattern], complements: complements || [], id: ++state.serial });
-    }
-    return shuffle(pool);
-  }
-  function newPlayer(name) {
-    const player = { name, hand: [], stock: buildStock(), score: 0, misses: 0, selected: null, lockUntil: 0 };
-    refill(player);
-    return player;
-  }
-  function refill(player) {
-    while (player.hand.length < 4) {
-      if (!player.stock.length) player.stock = buildStock();
-      player.hand.push(player.stock.pop());
-    }
-  }
-  function candidatePatterns(field) {
-    const occupied = SLOT_ORDER.filter((slot) => field[slot]);
-    const verb = field.V?.card || null;
-    return PATTERN_ORDER.filter((pattern) => {
-      const definition = PATTERNS[pattern];
-      if (!occupied.every((slot) => definition.slots.includes(slot))) return false;
-      if (verb && !verb.patterns.includes(pattern)) return false;
-      for (const slot of ["O1", "X"]) {
-        const card = field[slot]?.card;
-        if (!card) continue;
-        const role = definition.roles[slot];
-        if (card.type === "adjective" && role !== "C") return false;
-        if (role === "C" && card.type === "noun" && card.pronoun) return false;
-        if (role === "C" && verb && !verb.complements.includes(card.type)) return false;
-      }
-      return true;
-    });
-  }
-  function completedPattern(field) {
-    return candidatePatterns(field).find((pattern) => PATTERNS[pattern].slots.every((slot) => field[slot])) || null;
-  }
-  function nounCanOccupy(card, slot, field) {
-    const same = SLOT_ORDER.filter((other) => field[other]?.card.type === "noun" && field[other].card.entity === card.entity);
-    if (!same.length) return true;
-    if (same.length > 1) return false;
-    return slot === "S" ? ["O1", "X"].includes(same[0]) : same[0] === "S";
-  }
-  function possibleSlots(card) {
-    if (card.type === "verb") return ["V"];
-    if (card.type === "adjective") return ["O1", "X"];
-    return ["S", "O1", "X"];
-  }
-  function placementStatus(card, field, slot) {
-    if (field.locked) return "locked";
-    if (field[slot]) return "occupied";
-    if (!possibleSlots(card).includes(slot)) return "invalid";
-    if (card.type === "noun" && !nounCanOccupy(card, slot, field)) return "invalid";
-    const next = { ...field, [slot]: { card, owner: -1 } };
-    return candidatePatterns(next).length ? "ok" : "invalid";
-  }
-  function legalActions(playerIndex) {
-    const actions = [];
-    state.players[playerIndex].hand.forEach((card, cardIndex) => {
-      state.fields.forEach((field, lane) => {
-        for (const slot of possibleSlots(card)) {
-          if (placementStatus(card, field, slot) === "ok") actions.push({ cardIndex, lane, slot });
-        }
-      });
-    });
-    return actions;
-  }
-  function nounSurface(card, role, field) {
-    if ((role === "O" || role === "O₂") && field.S?.card.entity === card.entity) return card.forms?.reflexive || card.reflexive;
-    if (card.pronoun) return role === "S" ? card.forms.subject : card.forms.object;
-    return card.label;
-  }
-  function verbSurface(card, field) {
-    const subject = field.S?.card;
-    if (!subject) return card.label;
-    if (card.label === "be") {
-      if (subject.person === 1 && subject.number === "singular") return "am";
-      return subject.person === 2 || subject.number === "plural" ? "are" : "is";
-    }
-    return subject.person === 3 && subject.number === "singular" ? card.third : card.label;
-  }
-  function cardSurface(field, slot, pattern = null) {
-    const card = field[slot]?.card;
-    if (!card) return "";
-    if (card.type === "verb") return verbSurface(card, field);
-    if (card.type === "adjective") return card.label;
-    const role = pattern ? PATTERNS[pattern].roles[slot] : (slot === "S" ? "S" : "O");
-    return nounSurface(card, role, field);
-  }
-  function sentenceText(field, pattern) {
-    const words = PATTERNS[pattern].slots.map((slot) => cardSurface(field, slot, pattern));
-    const text = words.join(" ");
-    return text[0].toUpperCase() + text.slice(1) + ".";
-  }
-  function previewText(field) {
-    if (!SLOT_ORDER.some((slot) => field[slot])) return "カードを置くと、ここに英文が現れます。";
-    const pattern = completedPattern(field) || candidatePatterns(field)[0] || "SVOC";
-    const text = PATTERNS[pattern].slots.map((slot) => cardSurface(field, slot, pattern) || "____").join(" ");
-    return text[0].toUpperCase() + text.slice(1);
-  }
-  function escapeHtml(value) {
-    return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
-  }
-
-  function clearSessionTimers() {
-    state.epoch += 1;
-    state.timers.forEach(clearTimeout);
-    state.timers = [];
-    clearTimeout(state.cpuTimer);
-    state.cpuTimer = null;
-    clearInterval(state.tickTimer);
-    state.tickTimer = null;
-  }
-  function later(callback, delay) {
-    const epoch = state.epoch;
-    const timer = setTimeout(() => { if (epoch === state.epoch) callback(); }, delay);
-    state.timers.push(timer);
-    return timer;
-  }
-  function remainingMs() {
-    return state.phase === "playing"
-      ? Math.max(0, state.remainingMs - (performance.now() - state.playStartedAt))
-      : state.remainingMs;
-  }
-  function freezeClock() {
-    if (state.phase === "playing") state.remainingMs = remainingMs();
-  }
-  function resumeClock() { state.playStartedAt = performance.now(); }
-  function updateClock() {
-    const ms = remainingMs();
-    elements.time.textContent = (ms / 1000).toFixed(1);
-    elements.time.parentElement.classList.toggle("is-urgent", ms <= 10_000);
-    if (state.phase === "playing" && ms <= 0) endMatch();
-    if (state.phase === "playing") renderLocks();
-  }
-  function announce(message, tone = "good", duration = 1700) {
-    const toast = document.createElement("div");
-    toast.className = `toast ${tone === "bad" ? "bad" : tone === "gold" ? "gold" : ""}`;
-    toast.textContent = message;
-    elements.toast.replaceChildren(toast);
-    later(() => { if (toast.isConnected) toast.remove(); }, duration);
-  }
-  function showOverlay(lead, word) {
-    elements.lead.textContent = lead;
-    elements.word.textContent = word;
-    elements.overlay.classList.remove("is-hidden");
-  }
-  function hideOverlay() { elements.overlay.classList.add("is-hidden"); }
-  function startMatch() {
-    clearSessionTimers();
-    state.players = [newPlayer("プレイヤー1"), newPlayer(state.settings.mode === "cpu" ? "CPU" : "プレイヤー2")];
-    state.fields = Array.from({ length: state.settings.boardCount }, emptyField);
-    state.selectedLane = [0, state.settings.boardCount === 2 ? 1 : 0];
-    state.pending = [null, null];
-    state.priority = 0;
-    state.remainingMs = ROUND_MS;
-    state.history = [];
-    state.lastSentence = null;
-    state.phase = "opening";
-    state.pausedPhase = null;
-    elements.setup.classList.add("is-hidden");
-    elements.result.classList.add("is-hidden");
-    elements.game.classList.remove("is-hidden");
-    $("#homeButton").classList.remove("is-hidden");
-    $("#nameTop").textContent = state.players[1].name;
-    showOverlay("いざ尋常に…", "参る！");
-    playCue("start");
-    render();
-    state.tickTimer = setInterval(updateClock, 100);
-    later(() => {
-      hideOverlay();
-      state.phase = "playing";
-      resumeClock();
-      render();
-      checkStall();
-      scheduleCpu();
-    }, 1150);
-  }
-  function returnHome() {
-    clearSessionTimers();
-    state.phase = "setup";
-    state.players = [];
-    state.fields = [];
-    elements.setup.classList.remove("is-hidden");
-    elements.game.classList.add("is-hidden");
-    elements.result.classList.add("is-hidden");
-    $("#rulesModal").classList.add("is-hidden");
-    $("#homeButton").classList.add("is-hidden");
-    hideOverlay();
-    elements.toast.replaceChildren();
-  }
-  function endMatch() {
-    if (state.phase === "ended") return;
-    freezeClock();
-    state.remainingMs = 0;
-    state.phase = "ended";
-    clearTimeout(state.cpuTimer);
-    state.cpuTimer = null;
-    hideOverlay();
-    render();
-    renderResult();
-    elements.result.classList.remove("is-hidden");
-    playCue("end");
-  }
-  function penalize(index, message = "お手つき！ 15点減点") {
-    const player = state.players[index];
-    player.score -= MISPLAY_POINTS;
-    player.misses += 1;
-    player.selected = null;
-    player.lockUntil = performance.now() + MISPLAY_LOCK_MS;
-    announce(`${player.name}：${message}`, "bad");
-    playCue("misplay");
-  }
-  function commitPlacement(index, action) {
-    const player = state.players[index];
-    const [card] = player.hand.splice(action.cardIndex, 1);
-    state.fields[action.lane][action.slot] = { card, owner: index };
-    state.fields[action.lane].lastOwner = index;
-    player.score += CARD_POINTS;
-    player.selected = null;
-    refill(player);
-    playCue("place");
-  }
-  function settleCompletions() {
-    state.fields.forEach((field, lane) => {
-      if (field.locked) return;
-      const pattern = completedPattern(field);
-      if (!pattern) return;
-      field.locked = true;
-      const winner = field.lastOwner;
-      state.players[winner].score += COMPLETE_POINTS;
-      const english = sentenceText(field, pattern);
-      const record = { english, pattern, owner: winner, lane, time: Math.ceil(remainingMs() / 1000) };
-      state.history.unshift(record);
-      state.lastSentence = record;
-      announce(`${state.players[winner].name}が英文完成！ ${english}`, "gold", 2100);
-      playCue("complete");
-      later(() => {
-        if (state.phase === "ended" || state.phase === "setup") return;
-        state.fields[lane] = emptyField();
-        render();
-        checkStall();
-        scheduleCpu();
-      }, COMPLETION_HOLD_MS);
-    });
-  }
-  function attemptMove(index, action) {
-    if (state.phase !== "playing") return;
-    const player = state.players[index];
-    if (performance.now() < player.lockUntil) return;
-    const card = player.hand[action.cardIndex];
-    const field = state.fields[action.lane];
-    if (!card || !field) return;
-    const status = placementStatus(card, field, action.slot);
-    if (status === "locked" || status === "occupied") {
-      announce("その枠は使用中。カードは手札に戻ります。", "good", 1050);
-      return;
-    }
-    if (status === "invalid") {
-      penalize(index);
-      render();
-      return;
-    }
-    commitPlacement(index, action);
-    settleCompletions();
-    render();
-    checkStall();
-  }
-  function checkStall() {
-    if (state.phase !== "playing") return;
-    if (state.fields.some((field) => field.locked)) return;
-    if (legalActions(0).length || legalActions(1).length) return;
-    beginReady();
-  }
-  function beginReady() {
-    freezeClock();
-    clearTimeout(state.cpuTimer);
-    state.cpuTimer = null;
-    state.phase = "ready";
-    state.fields = Array.from({ length: state.settings.boardCount }, emptyField);
-    state.pending = [null, null];
-    state.selectedLane = [0, state.settings.boardCount === 2 ? 1 : 0];
-    state.players.forEach((player) => { player.selected = null; });
-    announce("場流し！ 4枚からカードと置き先を選ぼう", "gold", 2300);
-    playCue("flush");
-    render();
-    if (state.settings.mode === "cpu") {
-      later(() => {
-        if (state.phase !== "ready") return;
-        const actions = legalActions(1);
-        if (!actions.length) return;
-        const choice = chooseCpuAction(actions);
-        state.pending[1] = { ...choice, cardId: state.players[1].hand[choice.cardIndex].id };
-        render();
-        maybeStartSeNo();
-      }, 500);
-    }
-  }
-  function chooseCard(index, cardIndex) {
-    if (!["playing", "ready"].includes(state.phase)) return;
-    if (state.settings.mode === "cpu" && index === 1) return;
-    const player = state.players[index];
-    if (!player.hand[cardIndex] || performance.now() < player.lockUntil) return;
-    player.selected = cardIndex;
-    if (state.phase === "ready") state.pending[index] = null;
-    render();
-  }
-  function chooseLane(index, lane) {
-    if (!["playing", "ready"].includes(state.phase)) return;
-    if (state.settings.mode === "cpu" && index === 1) return;
-    if (lane < 0 || lane >= state.fields.length) return;
-    state.selectedLane[index] = lane;
-    if (state.phase === "ready") state.pending[index] = null;
-    render();
-  }
-  function chooseTarget(index, slot) {
-    if (!["playing", "ready"].includes(state.phase)) return;
-    if (state.settings.mode === "cpu" && index === 1) return;
-    const player = state.players[index];
-    if (performance.now() < player.lockUntil) return;
-    if (player.selected === null) {
-      announce("先に手札のカードを1枚選んでください", "good", 1150);
-      return;
-    }
-    const action = { cardIndex: player.selected, lane: state.selectedLane[index], slot };
-    if (state.phase === "ready") {
-      state.pending[index] = { ...action, cardId: player.hand[action.cardIndex].id };
-      render();
-      maybeStartSeNo();
-    } else {
-      attemptMove(index, action);
-    }
-  }
-  function maybeStartSeNo() {
-    if (state.phase !== "ready" || state.pending.some((choice) => !choice)) return;
-    state.phase = "countdown";
-    showOverlay("両者、準備完了", "せーの！");
-    playCue("start");
-    render();
-    later(revealSeNo, 850);
-  }
-  function revealSeNo() {
-    if (state.phase !== "countdown") return;
-    const choices = [...state.pending];
-    const baseLegal = choices.map((choice, index) => {
-      const card = state.players[index].hand.find((item) => item.id === choice.cardId);
-      return card && placementStatus(card, emptyField(), choice.slot) === "ok";
-    });
-    const order = state.priority === 0 ? [0, 1] : [1, 0];
-    const bounced = [];
-    order.forEach((index) => {
-      const choice = choices[index];
-      const player = state.players[index];
-      const cardIndex = player.hand.findIndex((item) => item.id === choice.cardId);
-      if (cardIndex < 0) return;
-      if (!baseLegal[index]) {
-        penalize(index, "せーのでお手つき！ 15点減点");
-        return;
-      }
-      const action = { cardIndex, lane: choice.lane, slot: choice.slot };
-      const status = placementStatus(player.hand[cardIndex], state.fields[action.lane], action.slot);
-      if (status !== "ok") {
-        bounced.push(player.name);
-        return;
-      }
-      commitPlacement(index, action);
-    });
-    state.priority = 1 - state.priority;
-    state.pending = [null, null];
-    hideOverlay();
-    state.phase = "playing";
-    resumeClock();
-    settleCompletions();
-    render();
-    if (bounced.length) announce(`${bounced.join("・")}のカードは手札へ。減点なし。`, "good");
-    checkStall();
-    scheduleCpu();
-  }
-  function chooseCpuAction(actions) {
-    const ranked = actions.map((action) => {
-      const card = state.players[1].hand[action.cardIndex];
-      const next = { ...state.fields[action.lane], [action.slot]: { card, owner: 1 } };
-      const completed = Boolean(completedPattern(next));
-      const occupancy = SLOT_ORDER.filter((slot) => next[slot]).length;
-      return { action, value: (completed ? 100 : 0) + occupancy * 8 + (action.slot === "V" ? 4 : 0) + Math.random() * 6 };
-    });
-    ranked.sort((a, b) => b.value - a.value);
-    return ranked[0].action;
-  }
-  function scheduleCpu() {
-    if (state.settings.mode !== "cpu" || state.phase !== "playing" || state.cpuTimer) return;
-    const [min, max] = CPU_SPEED[state.settings.level];
-    const delay = min + Math.random() * (max - min);
-    state.cpuTimer = later(() => {
-      state.cpuTimer = null;
-      if (state.phase !== "playing") return;
-      const actions = legalActions(1);
-      if (actions.length) attemptMove(1, chooseCpuAction(actions));
-      else checkStall();
-      scheduleCpu();
-    }, delay);
-  }
-
-  function cardMarkup(card, owner = null, compact = false) {
-    const typeLabel = { noun: "名詞", verb: "V・動詞", adjective: "形容詞" }[card.type];
-    const role = card.type === "verb" ? card.patterns.join("・") : card.type === "noun" ? "S・O・Cになれる" : "Cになれる";
-    return `<span class="card-type">${typeLabel}</span><span class="card-word">${escapeHtml(card.label)}</span><span class="card-gloss">${escapeHtml(card.gloss)}</span><span class="card-roles">${role}</span>${compact && owner !== null ? `<span class="owner-tag">${owner === 0 ? "P1" : "P2"}</span>` : ""}`;
-  }
-  function renderHands(index) {
-    const player = state.players[index];
-    const container = index === 0 ? elements.bottomHand : elements.topHand;
-    const disabled = state.settings.mode === "cpu" && index === 1;
-    const canAct = ["playing", "ready"].includes(state.phase) && !disabled;
-    const signature = player.hand.map((card) => card.id).join(",");
-    if (container.dataset.cards !== signature) {
-      container.innerHTML = player.hand.map((card, cardIndex) => `<button type="button" class="hand-card ${card.type}" data-card-index="${cardIndex}" aria-label="${escapeHtml(card.label)}、${{ noun: "名詞", verb: "動詞", adjective: "形容詞" }[card.type]}、手札${cardIndex + 1}番">${cardMarkup(card)}</button>`).join("");
-      container.dataset.cards = signature;
-    }
-    [...container.querySelectorAll(".hand-card")].forEach((button, cardIndex) => {
-      const selected = player.selected === cardIndex;
-      const ready = state.pending[index]?.cardId === player.hand[cardIndex].id;
-      button.classList.toggle("is-selected", selected);
-      button.classList.toggle("is-ready", ready);
-      button.setAttribute("aria-pressed", String(selected));
-      button.disabled = !canAct;
-    });
-  }
-  function renderControls(index) {
-    const laneContainer = index === 0 ? elements.bottomLanes : elements.topLanes;
-    const targetContainer = index === 0 ? elements.bottomTargets : elements.topTargets;
-    const isCpu = state.settings.mode === "cpu" && index === 1;
-    const canAct = ["playing", "ready"].includes(state.phase);
-    const signature = `${state.settings.boardCount}-${isCpu}`;
-    if (laneContainer.dataset.signature !== signature) {
-      laneContainer.innerHTML = isCpu ? "<span class=\"cpu-wait\">CPUが判断中…</span>" : state.settings.boardCount === 2
-        ? [0, 1].map((lane) => `<button type="button" class="lane-button" data-lane="${lane}">場 ${lane + 1}</button>`).join("") : "";
-      targetContainer.innerHTML = isCpu ? "" : SLOT_ORDER.map((slot, slotIndex) => `<button type="button" class="target-button" data-slot="${slot}"><span>${SLOT_META[slot].code}</span><kbd>${KEY_MAP[index].labels[slotIndex]}</kbd></button>`).join("");
-      laneContainer.dataset.signature = signature;
-    }
-    if (isCpu) return;
-    [...laneContainer.querySelectorAll("button")].forEach((button) => {
-      const active = state.selectedLane[index] === Number(button.dataset.lane);
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-pressed", String(active));
-      button.disabled = !canAct;
-    });
-    [...targetContainer.querySelectorAll("button")].forEach((button) => {
-      const ready = state.pending[index]?.slot === button.dataset.slot && state.pending[index]?.lane === state.selectedLane[index];
-      button.classList.toggle("is-ready", ready);
-      button.disabled = !canAct;
-    });
-  }
-  function renderBoards() {
-    elements.boards.innerHTML = state.fields.map((field, lane) => {
-      const slots = SLOT_ORDER.map((slot) => {
-        const placement = field[slot];
-        const content = placement
-          ? `<div class="field-card ${placement.card.type}">${cardMarkup({ ...placement.card, label: cardSurface(field, slot, completedPattern(field)) }, placement.owner, true)}</div>`
-          : `<span class="slot-watermark" aria-hidden="true">${SLOT_META[slot].code}</span>`;
-        return `<div class="sentence-slot" aria-label="${SLOT_META[slot].name}${placement ? `、${escapeHtml(cardSurface(field, slot, completedPattern(field)))}` : "、空欄"}"><div class="slot-heading"><span class="slot-code">${SLOT_META[slot].code}</span><span class="slot-name">${SLOT_META[slot].name}</span></div>${content}</div>`;
-      }).join("");
-      return `<div class="board-lane${field.locked ? " is-complete" : ""}"><div class="lane-heading"><strong>場 ${lane + 1}</strong><span>${escapeHtml(previewText(field))}</span></div><div class="sentence-board">${slots}</div></div>`;
-    }).join("");
-  }
-  function renderScores() {
-    [elements.bottomScore, elements.topScore].forEach((element, index) => {
-      const player = state.players[index];
-      element.querySelector(".score-name").textContent = player.name;
-      element.querySelector("strong").textContent = player.score;
-      element.querySelector("small").textContent = `お手つき ${player.misses}`;
-    });
-  }
-  function renderLocks() {
-    if (!state.players.length) return;
-    [elements.lockBottom, elements.lockTop].forEach((element, index) => {
-      const left = Math.max(0, state.players[index].lockUntil - performance.now());
-      element.textContent = left > 0 ? `待機 ${(left / 1000).toFixed(1)}秒` : "";
-    });
-  }
-  function render() {
-    if (!state.players.length) return;
-    renderHands(0);
-    renderHands(1);
-    renderControls(0);
-    renderControls(1);
-    renderBoards();
-    renderScores();
-    renderLocks();
-    updateClock();
-    elements.game.classList.toggle("is-ready", state.phase === "ready");
-    const messages = {
-      opening: "準備中…",
-      playing: "カードを選び、置き先を押そう",
-      ready: `場流し！ カードと位置を選ぶ（準備 ${state.pending.filter(Boolean).length}/2）`,
-      countdown: "せーの！",
-      paused: "一時停止中",
-      ended: "勝負あり！",
-    };
-    elements.phaseMessage.textContent = messages[state.phase] || "";
-    [elements.hintBottom, elements.hintTop].forEach((element, index) => {
-      element.textContent = state.phase === "ready"
-        ? (state.pending[index] ? "準備完了！ 相手を待っています" : "手札1枚と置き先を選ぶ")
-        : "手札を選んで、置き先を押す";
-    });
-    if (state.lastSentence) {
-      const record = state.lastSentence;
-      elements.lastSentence.innerHTML = `<strong>${escapeHtml(record.english)}</strong> <span>${record.pattern}・${PATTERNS[record.pattern].label} ／ ${escapeHtml(state.players[record.owner].name)}が完成</span>`;
-    } else {
-      elements.lastSentence.innerHTML = "<span>完成した英文がここに表示されます。</span>";
-    }
-  }
-  function renderResult() {
-    const [first, second] = state.players;
-    let winner = "引き分けですわ！";
-    if (first.score > second.score || (first.score === second.score && first.misses < second.misses)) winner = `${first.name}の勝ち！`;
-    if (second.score > first.score || (second.score === first.score && second.misses < first.misses)) winner = `${second.name}の勝ち！`;
-    $("#resultWinner").textContent = winner;
-    $("#resultScores").innerHTML = state.players.map((player) => `<div class="result-score"><span>${escapeHtml(player.name)}</span><strong>${player.score}</strong><small>点 ／ お手つき ${player.misses}回</small></div>`).join("");
-    $("#resultHistory").innerHTML = state.history.length
-      ? state.history.slice(0, 12).map((entry) => `<li><strong>${escapeHtml(entry.english)}</strong>　${entry.pattern}・${PATTERNS[entry.pattern].label}　<span>［${escapeHtml(state.players[entry.owner].name)}］</span></li>`).join("")
-      : "<li>今回は完成した英文がありませんでした。</li>";
-  }
-
-  let audioContext = null;
-  let soundOn = false;
-  let musicTimer = null;
-  let beat = 0;
-  function tone(frequency, length, volume, type = "sine") {
-    if (!soundOn || !audioContext) return;
-    const start = audioContext.currentTime;
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(frequency, start);
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(volume, start + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + length);
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-    oscillator.start(start);
-    oscillator.stop(start + length + 0.02);
-  }
-  function playBeat() {
-    const sequence = [0, 7, 3, 10, 5, 12, 7, 3, 0, 5, 10, 7, 3, 12, 10, 5];
-    const note = sequence[beat % sequence.length];
-    tone(220 * 2 ** (note / 12), 0.32, 0.015, "triangle");
-    if (beat % 4 === 0) tone(110, 0.15, 0.012);
-    if (beat % 4 === 2) tone(330, 0.05, 0.006, "sine");
-    beat += 1;
-  }
-  function playCue(type) {
-    if (!soundOn) return;
-    if (type === "place") tone(440, 0.07, 0.022, "triangle");
-    if (type === "misplay") tone(165, 0.26, 0.035, "sawtooth");
-    if (type === "complete") { tone(523, 0.16, 0.05, "triangle"); setTimeout(() => tone(784, 0.22, 0.045, "triangle"), 100); }
-    if (type === "flush") tone(220, 0.28, 0.032, "triangle");
-    if (type === "start") { tone(392, 0.14, 0.04, "triangle"); setTimeout(() => tone(587, 0.2, 0.04, "triangle"), 110); }
-    if (type === "end") tone(294, 0.5, 0.035, "triangle");
-  }
-  async function toggleSound() {
-    const button = $("#soundButton");
-    if (!soundOn) {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) { announce("このブラウザでは音を再生できません", "bad"); return; }
-      audioContext ||= new AudioContextClass();
-      await audioContext.resume();
-      soundOn = true;
-      beat = 0;
-      playBeat();
-      musicTimer = setInterval(playBeat, 360);
-    } else {
-      soundOn = false;
-      clearInterval(musicTimer);
-      musicTimer = null;
-    }
-    button.setAttribute("aria-pressed", String(soundOn));
-    button.setAttribute("aria-label", soundOn ? "音をオフにする" : "音をオンにする");
-    button.querySelector("span").textContent = soundOn ? "音 ON" : "音 OFF";
-  }
-  function toggleTheme() {
-    const root = document.documentElement;
-    const dark = root.dataset.theme !== "dark";
-    root.dataset.theme = dark ? "dark" : "light";
-    $("#themeButton").setAttribute("aria-pressed", String(dark));
-    $("#themeButton").setAttribute("aria-label", dark ? "ライトモードに切り替える" : "ダークモードに切り替える");
-    $("#themeButton span").textContent = dark ? "ライト" : "ダーク";
-  }
-  function openRules() {
-    if (state.phase === "playing") {
-      freezeClock();
-      state.pausedPhase = "playing";
-      state.phase = "paused";
-      clearTimeout(state.cpuTimer);
-      state.cpuTimer = null;
-    } else if (state.phase === "ready") {
-      state.pausedPhase = "ready";
-      state.phase = "paused";
-    }
-    $("#rulesModal").classList.remove("is-hidden");
-    if (state.players.length) render();
-  }
-  function closeRules() {
-    $("#rulesModal").classList.add("is-hidden");
-    if (state.phase === "paused") {
-      state.phase = state.pausedPhase;
-      state.pausedPhase = null;
-      if (state.phase === "playing") { resumeClock(); scheduleCpu(); }
-      render();
-    }
-  }
-  function selectSetup(key, value) {
-    state.settings[key] = value;
-    const attribute = { mode: "data-mode", boardCount: "data-boards", level: "data-level" }[key];
-    document.querySelectorAll(`[${attribute}]`).forEach((button) => {
-      const selected = button.getAttribute(attribute) === String(value);
-      button.classList.toggle("is-selected", selected);
-      button.setAttribute("aria-checked", String(selected));
-    });
-    $("#cpuLevelGroup").hidden = state.settings.mode !== "cpu";
-  }
-  function bindControls() {
-    elements.setup.addEventListener("click", (event) => {
-      const button = event.target.closest("button");
-      if (!button) return;
-      if (button.dataset.mode) selectSetup("mode", button.dataset.mode);
-      if (button.dataset.boards) selectSetup("boardCount", Number(button.dataset.boards));
-      if (button.dataset.level) selectSetup("level", button.dataset.level);
-    });
-    [elements.bottomHand, elements.topHand].forEach((container, index) => {
-      container.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-card-index]");
-        if (button) chooseCard(index, Number(button.dataset.cardIndex));
-      });
-    });
-    [elements.bottomLanes, elements.topLanes].forEach((container, index) => {
-      container.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-lane]");
-        if (button) chooseLane(index, Number(button.dataset.lane));
-      });
-    });
-    [elements.bottomTargets, elements.topTargets].forEach((container, index) => {
-      container.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-slot]");
-        if (button) chooseTarget(index, button.dataset.slot);
-      });
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.code === "Escape" && !$("#rulesModal").classList.contains("is-hidden")) { closeRules(); return; }
-      if (event.repeat || !["playing", "ready"].includes(state.phase) || !$("#rulesModal").classList.contains("is-hidden")) return;
-      for (let index = 0; index < 2; index += 1) {
-        if (index === 1 && state.settings.mode === "cpu") continue;
-        const mapping = KEY_MAP[index];
-        const cardIndex = mapping.cards.indexOf(event.code);
-        const slotIndex = mapping.slots.indexOf(event.code);
-        if (cardIndex >= 0) { event.preventDefault(); chooseCard(index, cardIndex); return; }
-        if (slotIndex >= 0) { event.preventDefault(); chooseTarget(index, SLOT_ORDER[slotIndex]); return; }
-        if (event.code === mapping.lane && state.settings.boardCount === 2) {
-          event.preventDefault();
-          chooseLane(index, 1 - state.selectedLane[index]);
-          return;
-        }
-      }
-    });
-    $("#startButton").addEventListener("click", startMatch);
-    $("#againButton").addEventListener("click", startMatch);
-    $("#homeButton").addEventListener("click", returnHome);
-    $("#resultHomeButton").addEventListener("click", returnHome);
-    $("#soundButton").addEventListener("click", toggleSound);
-    $("#themeButton").addEventListener("click", toggleTheme);
-    $("#rulesButton").addEventListener("click", openRules);
-    $("#closeRulesButton").addEventListener("click", closeRules);
-    $("#rulesModal").addEventListener("click", (event) => { if (event.target.id === "rulesModal") closeRules(); });
-  }
-  bindControls();
-});
-
-</script>
+    <meta name="description" content="文型道場の雰囲気を受け継ぐ、1台で遊べる早出し英文カードゲーム「文型一閃」" />
+    <title>文型一閃 | 試作版</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
   </head>
   <body>
     <main class="app-shell">
       <header class="topbar">
-        <div class="brand-lockup"><h1>文型スピード<span>α</span></h1><p>瞬間判断・英文早出し</p></div>
+        <div class="brand-lockup"><h1>文型一閃<span>α</span></h1><p>瞬間判断・英文早出し</p></div>
         <div class="header-actions">
           <button id="soundButton" class="button button-ghost" type="button" aria-label="音をオンにする" aria-pressed="false">♪ <span>音 OFF</span></button>
           <button id="themeButton" class="button button-ghost" type="button" aria-label="ダークモードに切り替える" aria-pressed="false">◐ <span>ダーク</span></button>
@@ -1075,7 +22,25 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </header>
 
-      <section id="setupScreen" class="setup-card" aria-labelledby="setupTitle">
+      <section id="setupScreen" class="setup-stage" aria-labelledby="setupTitle">
+        <div class="setup-pattern-rain" aria-hidden="true">
+          <span class="falling-pattern depth-near" style="--x: 2%; --duration: 19s; --delay: -5s; --drift: 18px">SV</span>
+          <span class="falling-pattern depth-far" style="--x: 17%; --duration: 28s; --delay: -14s; --drift: -12px">SVC</span>
+          <span class="falling-pattern depth-mid" style="--x: 32%; --duration: 23s; --delay: -11s; --drift: 22px">SVO</span>
+          <span class="falling-pattern depth-near" style="--x: 48%; --duration: 22s; --delay: -15s; --drift: -17px">SVOO</span>
+          <span class="falling-pattern depth-mid" style="--x: 61%; --duration: 25s; --delay: -20s; --drift: 12px">SVOC</span>
+          <span class="falling-pattern depth-far" style="--x: 95%; --duration: 30s; --delay: -24s; --drift: -11px">SV</span>
+          <span class="falling-pattern depth-near" style="--x: 7%; --duration: 20s; --delay: -14s; --drift: 11px">SVC</span>
+          <span class="falling-pattern depth-mid" style="--x: 73%; --duration: 24s; --delay: -4s; --drift: -19px">SVOO</span>
+          <span class="falling-pattern depth-far" style="--x: 43%; --duration: 29s; --delay: -16s; --drift: 16px">SVOC</span>
+          <span class="falling-pattern depth-mid" style="--x: 90%; --duration: 21s; --delay: -15s; --drift: -16px">SV</span>
+          <span class="falling-pattern depth-far" style="--x: 11%; --duration: 26s; --delay: -9s; --drift: 10px">SVO</span>
+          <span class="falling-pattern depth-near" style="--x: 77%; --duration: 23s; --delay: -17s; --drift: -18px">SVOC</span>
+          <span class="falling-pattern depth-mid" style="--x: 23%; --duration: 27s; --delay: -22s; --drift: 13px">SVC</span>
+          <span class="falling-pattern depth-far" style="--x: 57%; --duration: 31s; --delay: -8s; --drift: -17px">SVOO</span>
+          <span class="falling-pattern depth-near" style="--x: 88%; --duration: 21s; --delay: -2s; --drift: -14px">SVO</span>
+        </div>
+        <div class="setup-card">
         <div class="setup-copy">
           <div class="eyebrow">文型道場から生まれた、新しい勝負</div>
           <h2 id="setupTitle">文型を見抜き、<br /><em>先手を取れ。</em></h2>
@@ -1097,6 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
               <button type="button" data-boards="2" role="radio" aria-checked="false">2面</button>
             </div>
           </div>
+          <div class="control-group">
+            <span class="control-label">制限時間</span>
+            <div class="segmented segmented-three" role="radiogroup" aria-label="制限時間">
+              <button type="button" data-round-seconds="20" role="radio" aria-checked="false">20秒</button>
+              <button type="button" data-round-seconds="40" role="radio" aria-checked="true" class="is-selected">40秒</button>
+              <button type="button" data-round-seconds="60" role="radio" aria-checked="false">60秒</button>
+            </div>
+          </div>
           <div class="control-group" id="cpuLevelGroup" hidden>
             <span class="control-label">CPUの速さ</span>
             <div class="segmented segmented-three" role="radiogroup" aria-label="CPUの速さ">
@@ -1106,14 +79,15 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
           <button id="startButton" class="button button-primary button-large" type="button">▷　ゲームをはじめる</button>
-          <p class="setup-note">1台共有・90秒勝負。スマホは縦向き、PCは1面がおすすめ。</p>
+          <p class="setup-note">1台共有・20／40／60秒勝負。スマホは縦向き、PCは1面がおすすめ。</p>
+        </div>
         </div>
       </section>
 
       <section id="gameScreen" class="game-screen is-hidden" aria-label="対戦画面">
         <div class="scorebar">
           <div id="scoreTop" class="score-chip score-chip-top"><span class="score-name">プレイヤー2</span><strong>0</strong><small>お手つき 0</small></div>
-          <div class="clock-chip"><span>残り時間</span><strong id="timeLeft">90.0</strong><span>秒</span></div>
+          <div class="clock-chip"><span>残り時間</span><strong id="timeLeft">40.0</strong><span>秒</span></div>
           <div id="scoreBottom" class="score-chip score-chip-bottom"><span class="score-name">プレイヤー1</span><strong>0</strong><small>お手つき 0</small></div>
         </div>
 
@@ -1130,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="table-heading"><strong>場の英文</strong><span id="phaseMessage" role="status" aria-live="polite">置けるカードを見つけよう</span></div>
           <div id="boards" class="boards"></div>
           <div id="lastSentence" class="last-sentence"><span>完成した英文がここに表示されます。</span></div>
+          <div id="boardCountdown" class="board-countdown is-hidden" role="status" aria-live="assertive" aria-hidden="true"><span>場流し　仕切り直し</span><strong id="boardCountdownNumber">3</strong></div>
         </section>
 
         <section class="player-zone player-bottom" aria-label="プレイヤー1の操作エリア">
@@ -1145,7 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
     </main>
 
     <div id="toastRegion" class="toast-region" role="status" aria-live="polite"></div>
-    <div id="countdownOverlay" class="countdown-overlay is-hidden" aria-live="assertive"><span id="countdownLead">いざ尋常に…</span><strong id="countdownWord">参る！</strong></div>
+    <div id="matchIntro" class="match-intro is-hidden" role="status" aria-live="assertive" aria-hidden="true"><span>いざ尋常に…</span><strong>参る！</strong></div>
+    <div id="endCurtain" class="end-curtain is-hidden" aria-hidden="true"><div class="fusuma-panel fusuma-left"><span></span></div><div class="fusuma-panel fusuma-right"><span></span></div><strong>そこまで！</strong></div>
 
     <div id="rulesModal" class="modal-backdrop is-hidden" role="presentation">
       <section class="modal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
@@ -1154,23 +130,31 @@ document.addEventListener("DOMContentLoaded", () => {
         <ol class="rules-list">
           <li>手札は常に4枚。カードを選び、自分側の「S／V／O/C／O₂/C」ボタンで置きます。カードを出すと自動補充されます。</li>
           <li>正しく出すと10点、英文を完成させると追加30点。文法上置けないカードはお手つきで15点減点、約0.7秒待機です。</li>
-          <li>双方に出せる手がなくなると、自動で場流し。各自が手札1枚と置き先を選び、両者の準備後に「せーの！」で同時に出します。</li>
-          <li>「せーの！」で同じ枠を選んだ場合は、場流しごとに交代する優先権で決めます。先を越されたカードは戻り、減点されません。</li>
-          <li>90秒後、得点の高い人が勝ち。CPUは自分の手札と場だけを見て、レベルに応じた速さで出します。</li>
+          <li>双方に出せる手がなくなると、自動で場流し。場を隠して「3、2、1」を各0.5秒ずつ表示し、約1.5秒で再開します。</li>
+          <li>カウント中は手札と置き先を操作できません。再開後は新しい場へ、早い者勝ちでカードを出します。</li>
+          <li>制限時間は20・40・60秒から選べます。得点の高い人が勝ち。同点ならお手つきの少ない人が勝ちです。CPUはレベルに応じた速さで出します。</li>
         </ol>
+        <div class="rules-rank">
+          <h3>文型道場と同じ4つの称号</h3>
+          <p>各人の対戦得点を60秒換算して判定します。場流し中の約1.5秒は制限時間に含みません。負点は称号判定では0点として扱います。</p>
+          <div class="rank-thresholds"><span>文型見習い<br /><strong>0〜149点</strong></span><span>文型弟子<br /><strong>150〜249点</strong></span><span>文型師匠<br /><strong>250〜349点</strong></span><span>文型師範<br /><strong>350点以上</strong></span></div>
+        </div>
         <p class="rules-note">文型は SV／SVC／SVO／SVOO／SVOC。手札の動詞は原形、場では主語に応じて形が変わります。音は上部のボタンから有効にできます。</p>
       </section>
     </div>
 
     <div id="resultModal" class="modal-backdrop is-hidden" role="presentation">
+      <div id="shihanPetals" class="shihan-petals is-hidden" aria-hidden="true"></div>
       <section class="modal result-modal" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
         <div class="result-kicker">稽古結果</div>
         <h2 id="resultTitle">勝負あり！</h2>
         <p id="resultWinner" class="result-winner"></p>
+        <p id="resultRankNote" class="result-rank-note"></p>
         <div id="resultScores" class="result-scores"></div>
         <div class="result-history"><h3>完成した英文</h3><ol id="resultHistory"></ol></div>
         <div class="result-actions"><button id="againButton" class="button button-primary" type="button">もう一勝負</button><button id="resultHomeButton" class="button button-ghost" type="button">スタート画面へ</button></div>
       </section>
     </div>
+    <audio id="bgmAudio" preload="none" loop muted></audio>
   </body>
 </html>
