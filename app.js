@@ -299,6 +299,12 @@
     elements.boardCountdown.classList.add("is-hidden");
     elements.boardCountdown.setAttribute("aria-hidden", "true");
   }
+  function setGameplayViewportLock(locked) {
+    const active = Boolean(locked);
+    if (active && typeof window.scrollTo === "function") window.scrollTo(0, 0);
+    document.documentElement?.classList.toggle("gameplay-locked", active);
+    document.body?.classList.toggle("gameplay-locked", active);
+  }
   function startMatch() {
     clearSessionTimers();
     stopEffects();
@@ -319,6 +325,7 @@
     elements.result.classList.add("is-hidden");
     elements.game.classList.remove("is-hidden");
     elements.game.classList.toggle("is-face-to-face", state.settings.mode === "human");
+    setGameplayViewportLock(true);
     $("#homeButton").classList.remove("is-hidden");
     $("#nameTop").textContent = state.players[1].name;
     showMatchIntro();
@@ -343,6 +350,7 @@
     state.resultRankKey = null;
     state.rankMusicReady = false;
     showShihanPetals(false);
+    setGameplayViewportLock(false);
     elements.setup.classList.remove("is-hidden");
     elements.game.classList.add("is-hidden");
     elements.result.classList.add("is-hidden");

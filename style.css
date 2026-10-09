@@ -288,6 +288,20 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
   .keyboard-help { display: none; }
 }
 @media (max-width: 520px) {
+  html.gameplay-locked, body.gameplay-locked { height: 100%; overflow: hidden; overscroll-behavior-y: none; }
+  body.gameplay-locked { position: fixed; inset: 0; width: 100%; }
+  body.gameplay-locked .app-shell { display: flex; flex-direction: column; height: 100dvh; min-height: 0; }
+  body.gameplay-locked .topbar { flex: 0 0 auto; }
+  body.gameplay-locked .game-screen { display: grid; flex: 1 1 auto; height: 100%; min-height: 0; grid-template-rows: auto minmax(0, .9fr) minmax(0, .95fr) minmax(0, 1.08fr); }
+  body.gameplay-locked .game-screen.is-face-to-face { min-height: 0; grid-template-rows: auto minmax(0, .95fr) minmax(0, 1.25fr) minmax(0, .95fr); }
+  body.gameplay-locked .game-screen .player-zone { display: flex; flex-direction: column; min-height: 0; }
+  body.gameplay-locked .game-screen .hand { flex: 0 0 auto; }
+  body.gameplay-locked .game-screen .table-area, body.gameplay-locked .game-screen .board-lane { display: flex; flex-direction: column; min-height: 0; }
+  body.gameplay-locked .game-screen .boards, body.gameplay-locked .game-screen .sentence-board { flex: 1 1 auto; min-height: 0; }
+  body.gameplay-locked .game-screen .sentence-slot, body.gameplay-locked .game-screen .slot-face, body.gameplay-locked .game-screen .field-card { min-height: 0; }
+  body.gameplay-locked .game-screen:not(.is-face-to-face) .hand-card { aspect-ratio: 1; min-height: 0; padding: 4px; }
+  body.gameplay-locked .game-screen:not(.is-face-to-face) .player-top .placement-controls { flex: 0 0 34px; }
+  body.gameplay-locked .game-screen:not(.is-face-to-face) .player-bottom .placement-controls { flex: 0 0 78px; }
   .setup-stage { padding: 15px 0 26px; }
   .app-shell { width: calc(100% - 12px); padding: 5px 0 max(6px, env(safe-area-inset-bottom)); }
   .topbar { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; margin-bottom: 6px; padding-bottom: 5px; }
@@ -363,7 +377,6 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
 }
 @media (max-width: 400px) {
   .header-actions .header-icon { display: none; }
-  .game-screen:not(.is-face-to-face) .hand-card { aspect-ratio: 1; min-height: 0; padding: 4px; }
 }
 @media (max-width: 360px) {
   .header-actions .button { padding-inline: 3px; font-size: .59rem; }
