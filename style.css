@@ -296,7 +296,7 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
   .header-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(68px, 1fr)); width: 100%; margin-left: 0; gap: 3px; }
   .header-actions .button { min-width: 0; min-height: 31px; gap: 3px; padding: 0 4px; font-size: .62rem; }
   .header-actions .button span { display: inline; }
-  .match-intro.is-face-to-face .match-intro-frame { width: calc(100dvh - 20px); height: clamp(145px, 27dvh, 220px); transform: rotate(90deg); }
+  .match-intro.is-face-to-face .match-intro-frame { position: absolute; top: 50%; left: 50%; width: calc(100dvh - 20px); height: clamp(145px, 27dvh, 220px); transform: translate(-50%, -50%) rotate(90deg); }
   .match-intro.is-face-to-face span { font-size: clamp(1.55rem, 4.8dvh, 3rem); }
   .match-intro.is-face-to-face strong { font-size: clamp(3.1rem, 10dvh, 6.6rem); }
   .setup-card { min-height: unset; padding: 19px; }
