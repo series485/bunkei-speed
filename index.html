@@ -7,8 +7,8 @@
     <meta name="description" content="文型道場の雰囲気を受け継ぐ、1台で遊べる早出し英文カードゲーム「文型一閃」" />
     <title>文型一閃 | 試作版</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261009-face" />
+    <script src="app.js?v=20261009-face" defer></script>
   </head>
   <body>
     <main class="app-shell">
@@ -79,7 +79,7 @@
             </div>
           </div>
           <button id="startButton" class="button button-primary button-large" type="button">▷　ゲームをはじめる</button>
-          <p class="setup-note">1台共有・20／40／60秒勝負。スマホは縦向き、PCは1面がおすすめ。</p>
+          <p class="setup-note">1台共有・20／40／60秒勝負。スマホ2人戦は、端末を挟んで向かい合って遊びます。PCは1面がおすすめ。</p>
         </div>
         </div>
       </section>
@@ -128,6 +128,7 @@
         <button id="closeRulesButton" class="modal-close" type="button" aria-label="遊び方を閉じる">×</button>
         <h2 id="rulesTitle">遊び方</h2>
         <ol class="rules-list">
+          <li>スマホ2人戦では、プレイヤー2が画面の上側に座ります。上側の手札・置き先・得点は、向かい側から読める向きで表示されます。</li>
           <li>手札は常に4枚。カードを選び、自分側の「S／V／O/C／O₂/C」ボタンで置きます。カードを出すと自動補充されます。</li>
           <li>正しく出すと10点、英文を完成させると追加30点。文法上置けないカードはお手つきで15点減点、約0.7秒待機です。</li>
           <li>双方に出せる手がなくなると、自動で場流し。場を隠して「3、2、1」を各0.5秒ずつ表示し、約1.5秒で再開します。</li>

@@ -268,7 +268,7 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
 @media (max-width: 520px) {
   .rank-thresholds { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .setup-stage { padding: 15px 0 26px; }
-  .app-shell { width: calc(100% - 12px); padding-top: 5px; }
+  .app-shell { width: calc(100% - 12px); padding: 5px 0 max(6px, env(safe-area-inset-bottom)); }
   .topbar { gap: 4px; margin-bottom: 6px; padding-bottom: 5px; }
   .brand-lockup h1 { font-size: 1.47rem; }
   .brand-lockup p { display: none; }
@@ -280,26 +280,30 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
   .setup-feature { margin-top: 10px; }
   .setup-controls { padding: 13px; }
   .game-screen { gap: 5px; }
+  .game-screen.is-face-to-face { min-height: max(620px, calc(100dvh - 74px - env(safe-area-inset-bottom))); grid-template-rows: auto minmax(210px, 1fr) auto minmax(210px, 1fr); }
+  .game-screen.is-face-to-face .player-zone { display: flex; flex-direction: column; min-height: 0; }
+  .game-screen.is-face-to-face .hand { flex: 1 1 auto; }
+  .game-screen.is-face-to-face .player-top, .game-screen.is-face-to-face .score-chip-top { transform: rotate(180deg); }
   .scorebar { gap: 3px; }
-  .score-chip, .clock-chip { min-height: 37px; padding: 3px 4px; }
+  .score-chip, .clock-chip { min-height: 43px; padding: 3px 4px; }
   .score-name { font-size: .64rem; }
   .score-chip strong, .clock-chip strong { font-size: 1.05rem; }
   .clock-chip span { display: none; }
-  .player-zone { padding: 5px 6px 6px; }
+  .player-zone { padding: 7px 6px 8px; }
   .zone-heading { min-height: 23px; }
   .zone-heading strong { font-size: .86rem; }
   .zone-hint { display: none; }
-  .hand { gap: 4px; margin-top: 3px; }
-  .hand-card { min-height: 81px; padding: 4px; border-width: 1.5px; }
-  .card-type { padding: 1px 3px; font-size: .43rem; }
-  .card-word { font-size: .69rem; }
-  .card-gloss { font-size: .43rem; }
-  .card-roles { font-size: .42rem; }
-  .placement-controls { gap: 3px; margin-top: 4px; }
-  .lane-button, .target-button { min-height: 29px; }
+  .hand { gap: 4px; margin-top: 6px; }
+  .hand-card { min-height: 100px; padding: 5px; border-width: 1.5px; }
+  .card-type { padding: 2px 4px; font-size: .5rem; }
+  .card-word { font-size: .82rem; }
+  .card-gloss { font-size: .56rem; }
+  .card-roles { font-size: .48rem; }
+  .placement-controls { gap: 3px; margin-top: 7px; }
+  .lane-button, .target-button { min-height: 52px; }
   .lane-button { min-width: 40px; padding: 0 3px; font-size: .57rem; }
   .target-controls { gap: 3px; }
-  .target-button { gap: 2px; font-size: .68rem; }
+  .target-button { gap: 2px; font-size: .82rem; }
   .target-button kbd { display: none; }
   .table-area { padding: 5px; border-width: 5px; }
   .table-heading { min-height: 21px; margin-bottom: 3px; }
@@ -310,6 +314,10 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
   .lane-heading span { font-size: .61rem; }
   .sentence-board { gap: 3px; }
   .sentence-slot { min-height: 61px; padding: 3px; }
+  .game-screen.is-face-to-face .sentence-slot { grid-template-rows: 42px auto minmax(45px, 1fr); gap: 2px; min-height: 110px; }
+  .game-screen.is-face-to-face .sentence-slot::before { content: attr(data-top-label); grid-row: 1; display: grid; place-items: center; min-width: 0; padding: 2px; border-radius: 4px; color: var(--red); background: rgba(186,81,66,.08); font: 800 .62rem/1.15 Georgia, "Times New Roman", serif; overflow-wrap: anywhere; text-align: center; transform: rotate(180deg); }
+  .game-screen.is-face-to-face .slot-heading { grid-row: 2; }
+  .game-screen.is-face-to-face .field-card, .game-screen.is-face-to-face .slot-watermark { grid-row: 3; }
   .slot-code { font-size: .56rem; }
   .slot-name { display: none; }
   .slot-watermark { font-size: 1.6rem; }

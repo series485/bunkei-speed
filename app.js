@@ -319,6 +319,7 @@
     elements.setup.classList.add("is-hidden");
     elements.result.classList.add("is-hidden");
     elements.game.classList.remove("is-hidden");
+    elements.game.classList.toggle("is-face-to-face", state.settings.mode === "human");
     $("#homeButton").classList.remove("is-hidden");
     $("#nameTop").textContent = state.players[1].name;
     showMatchIntro();
@@ -580,10 +581,12 @@
     elements.boards.innerHTML = state.fields.map((field, lane) => {
       const slots = SLOT_ORDER.map((slot) => {
         const placement = field[slot];
+        const surface = placement ? cardSurface(field, slot, completedPattern(field)) : null;
+        const topLabel = surface ? `${SLOT_META[slot].code} ${surface}` : SLOT_META[slot].code;
         const content = placement
-          ? `<div class="field-card ${placement.card.type}">${cardMarkup({ ...placement.card, label: cardSurface(field, slot, completedPattern(field)) }, placement.owner, true)}</div>`
+          ? `<div class="field-card ${placement.card.type}">${cardMarkup({ ...placement.card, label: surface }, placement.owner, true)}</div>`
           : `<span class="slot-watermark" aria-hidden="true">${SLOT_META[slot].code}</span>`;
-        return `<div class="sentence-slot" aria-label="${SLOT_META[slot].name}${placement ? `、${escapeHtml(cardSurface(field, slot, completedPattern(field)))}` : "、空欄"}"><div class="slot-heading"><span class="slot-code">${SLOT_META[slot].code}</span><span class="slot-name">${SLOT_META[slot].name}</span></div>${content}</div>`;
+        return `<div class="sentence-slot" data-top-label="${escapeHtml(topLabel)}" aria-label="${SLOT_META[slot].name}${surface ? `、${escapeHtml(surface)}` : "、空欄"}"><div class="slot-heading"><span class="slot-code">${SLOT_META[slot].code}</span><span class="slot-name">${SLOT_META[slot].name}</span></div>${content}</div>`;
       }).join("");
       return `<div class="board-lane${field.locked ? " is-complete" : ""}"><div class="lane-heading"><strong>場 ${lane + 1}</strong><span>${escapeHtml(previewText(field))}</span></div><div class="sentence-board">${slots}</div></div>`;
     }).join("");
