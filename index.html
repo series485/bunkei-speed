@@ -8,7 +8,7 @@
     <title>文型一閃 | 試作版</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="style.css?v=20261010-cpu-targets-fit" />
-    <script src="app.js?v=20261010-results-rules" defer></script>
+    <script src="app.js?v=20261010-fixed-hand-slots" defer></script>
   </head>
   <body>
     <main class="app-shell">
@@ -44,7 +44,7 @@
         <div class="setup-copy">
           <div class="eyebrow">文型道場から生まれた、新しい勝負</div>
           <h2 id="setupTitle">文型を見抜き、<br /><em>先手を取れ。</em></h2>
-          <p>4枚の手札から置けるカードを見つけ、場の英文をつなごう。カードは出すたびに補充。制限時間内に、相手より多くの点を取れ！</p>
+          <p>4枚の手札から置けるカードを見つけ、場の英文をつなごう。出した位置だけ新しいカードに変わる。制限時間内に、相手より多くの点を取れ！</p>
           <div class="setup-feature"><span>⚡ 同時進行</span><span>✦ 1台で2人対戦</span><span>◆ CPU戦</span></div>
         </div>
         <div class="setup-controls">
@@ -122,7 +122,7 @@
           <h3 id="rulesPlayTitle" class="rules-section-title">プレイの流れ</h3>
           <ol class="rules-list" role="list">
             <li><span class="rules-number" aria-hidden="true">1</span><span>2人対戦かCPU戦を選び、制限時間を20・40・60秒から決めます。CPUの速さも選べます。</span></li>
-            <li><span class="rules-number" aria-hidden="true">2</span><span>両者同時に、4枚の手札からカードを選び、自分側の置き先ボタンで共有の場へ出します。出した手札は自動補充されます。</span></li>
+            <li><span class="rules-number" aria-hidden="true">2</span><span>両者同時に、4枚の手札からカードを選び、自分側の置き先ボタンで共有の場へ出します。出した位置だけ新しいカードに変わり、ほかの手札は動きません。</span></li>
             <li><span class="rules-number" aria-hidden="true">3</span><span>場は左からS・V・O/C・O₂/C。3・4番目の枠は、動詞に応じて目的語や補語になります。</span></li>
             <li><span class="rules-number" aria-hidden="true">4</span><span>正しく置くと10点。必要な枠が埋まって英文が完成すると、さらに30点が入り、場のカードが流れます。</span></li>
             <li><span class="rules-number" aria-hidden="true">5</span><span>置けない場所へ出すとお手つき。15点減点され、約0.7秒間は次のカードを出せません。</span></li>

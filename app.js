@@ -129,11 +129,12 @@
     refill(player);
     return player;
   }
+  function drawCard(player) {
+    if (!player.stock.length) player.stock = buildStock();
+    return player.stock.pop();
+  }
   function refill(player) {
-    while (player.hand.length < 4) {
-      if (!player.stock.length) player.stock = buildStock();
-      player.hand.push(player.stock.pop());
-    }
+    while (player.hand.length < 4) player.hand.push(drawCard(player));
   }
   function candidatePatterns(field) {
     const occupied = SLOT_ORDER.filter((slot) => field[slot]);
@@ -394,12 +395,12 @@
   }
   function commitPlacement(index, action) {
     const player = state.players[index];
-    const [card] = player.hand.splice(action.cardIndex, 1);
+    const card = player.hand[action.cardIndex];
+    player.hand[action.cardIndex] = drawCard(player);
     state.fields[action.lane][action.slot] = { card, owner: index };
     state.fields[action.lane].lastOwner = index;
     player.score += CARD_POINTS;
     player.selected = null;
-    refill(player);
     if (index === 1 && state.settings.mode === "cpu") playCue("place");
   }
   function settleCompletions() {
