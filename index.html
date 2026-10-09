@@ -7,18 +7,18 @@
     <meta name="description" content="文型道場の雰囲気を受け継ぐ、1台で遊べる早出し英文カードゲーム「文型一閃」" />
     <title>文型一閃 | 試作版</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=20261009-readable-order" />
-    <script src="app.js?v=20261009-readable-order" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261010-results-rules" />
+    <script src="app.js?v=20261010-results-rules" defer></script>
   </head>
   <body>
     <main class="app-shell">
       <header class="topbar">
         <div class="brand-lockup"><h1>文型一閃<span>α</span></h1><p>瞬間判断・英文早出し</p></div>
         <div class="header-actions">
-          <button id="soundButton" class="button button-ghost" type="button" aria-label="音をオンにする" aria-pressed="false">♪ <span>音 OFF</span></button>
-          <button id="themeButton" class="button button-ghost" type="button" aria-label="ダークモードに切り替える" aria-pressed="false">◐ <span>ダーク</span></button>
-          <button id="rulesButton" class="button button-ghost" type="button" aria-label="遊び方">？ <span>遊び方</span></button>
-          <button id="homeButton" class="button button-ghost is-hidden" type="button" aria-label="スタート画面へ戻る">↶ <span>スタート画面へ</span></button>
+          <button id="soundButton" class="button button-ghost" type="button" aria-label="音をオンにする" aria-pressed="false"><i class="header-icon" aria-hidden="true">♪</i><span>音OFF</span></button>
+          <button id="themeButton" class="button button-ghost" type="button" aria-label="ダークモードに切り替える" aria-pressed="false"><i class="header-icon" aria-hidden="true">◐</i><span>ダーク</span></button>
+          <button id="rulesButton" class="button button-ghost" type="button" aria-label="遊び方"><i class="header-icon" aria-hidden="true">？</i><span>遊び方</span></button>
+          <button id="homeButton" class="button button-ghost is-hidden" type="button" aria-label="スタート画面へ戻る"><i class="header-icon" aria-hidden="true">↶</i><span>スタート画面へ</span></button>
         </div>
       </header>
 
@@ -111,27 +111,56 @@
     </main>
 
     <div id="toastRegion" class="toast-region" role="status" aria-live="polite"></div>
-    <div id="matchIntro" class="match-intro is-hidden" role="status" aria-live="assertive" aria-hidden="true"><span>いざ尋常に…</span><strong>参る！</strong></div>
+    <div id="matchIntro" class="match-intro is-hidden" role="status" aria-live="assertive" aria-hidden="true"><div class="match-intro-frame"><span>いざ尋常に…</span><strong>参る！</strong></div></div>
     <div id="endCurtain" class="end-curtain is-hidden" aria-hidden="true"><div class="fusuma-panel fusuma-left"><span></span></div><div class="fusuma-panel fusuma-right"><span></span></div><strong>そこまで！</strong></div>
 
     <div id="rulesModal" class="modal-backdrop is-hidden" role="presentation">
-      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
+      <section class="modal rules-modal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
         <button id="closeRulesButton" class="modal-close" type="button" aria-label="遊び方を閉じる">×</button>
         <h2 id="rulesTitle">遊び方</h2>
-        <ol class="rules-list">
-          <li>場は1つ。スマホ2人戦ではプレイヤー2が画面の上側に座ります。場のカードは両側から S→V→O/C→O₂/C の順で読めます。</li>
-          <li>手札は常に4枚。カードを選び、自分側の「S／V／O/C／O₂/C」ボタンで置きます。カードを出すと自動補充されます。</li>
-          <li>正しく出すと10点、英文を完成させると追加30点。文法上置けないカードはお手つきで15点減点、約0.7秒待機です。</li>
-          <li>双方に出せる手がなくなると、自動で場流し。場を隠して「3、2、1」を各0.5秒ずつ表示し、約1.5秒で再開します。</li>
-          <li>カウント中は手札と置き先を操作できません。再開後は新しい場へ、早い者勝ちでカードを出します。</li>
-          <li>制限時間は20・40・60秒から選べます。得点の高い人が勝ち。同点ならお手つきの少ない人が勝ちです。CPUはレベルに応じた速さで出します。</li>
-        </ol>
-        <div class="rules-rank">
-          <h3>文型道場と同じ4つの称号</h3>
-          <p>各人の対戦得点を60秒換算して判定します。場流し中の約1.5秒は制限時間に含みません。負点は称号判定では0点として扱います。</p>
-          <div class="rank-thresholds"><span>文型見習い<br /><strong>0〜149点</strong></span><span>文型弟子<br /><strong>150〜249点</strong></span><span>文型師匠<br /><strong>250〜349点</strong></span><span>文型師範<br /><strong>350点以上</strong></span></div>
-        </div>
-        <p class="rules-note">文型は SV／SVC／SVO／SVOO／SVOC。手札の動詞は原形、場では主語に応じて形が変わります。音は上部のボタンから有効にできます。</p>
+        <section class="rules-section" aria-labelledby="rulesPlayTitle">
+          <h3 id="rulesPlayTitle" class="rules-section-title">プレイの流れ</h3>
+          <ol class="rules-list" role="list">
+            <li><span class="rules-number" aria-hidden="true">1</span><span>2人対戦かCPU戦を選び、制限時間を20・40・60秒から決めます。CPUの速さも選べます。</span></li>
+            <li><span class="rules-number" aria-hidden="true">2</span><span>両者同時に、4枚の手札からカードを選び、自分側の置き先ボタンで共有の場へ出します。出した手札は自動補充されます。</span></li>
+            <li><span class="rules-number" aria-hidden="true">3</span><span>場は左からS・V・O/C・O₂/C。3・4番目の枠は、動詞に応じて目的語や補語になります。</span></li>
+            <li><span class="rules-number" aria-hidden="true">4</span><span>正しく置くと10点。必要な枠が埋まって英文が完成すると、さらに30点が入り、場のカードが流れます。</span></li>
+            <li><span class="rules-number" aria-hidden="true">5</span><span>置けない場所へ出すとお手つき。15点減点され、約0.7秒間は次のカードを出せません。</span></li>
+            <li><span class="rules-number" aria-hidden="true">6</span><span>双方に出せる手がなくなると自動で場流し。場を隠して「3・2・1」を各0.5秒表示し、その間は時間と操作が止まります。</span></li>
+            <li><span class="rules-number" aria-hidden="true">7</span><span>時間切れで得点の高い人が勝ち。同点ならお手つきの少ない人が勝ちです。</span></li>
+          </ol>
+        </section>
+        <section class="rules-section rules-other" aria-labelledby="rulesOtherTitle">
+          <h3 id="rulesOtherTitle" class="rules-section-title">その他</h3>
+          <div class="rules-detail">
+            <h4>スコアと称号</h4>
+            <p>対戦得点を60秒換算し、文型道場と同じ4つの称号を付けます。勝敗には換算前の得点を使います。</p>
+            <table class="rules-rank-table" aria-label="称号と60秒換算の得点">
+              <thead><tr><th scope="col">称号</th><th scope="col">60秒換算の得点</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">文型師範</th><td>350点以上</td></tr>
+                <tr><th scope="row">文型師匠</th><td>250〜349点</td></tr>
+                <tr><th scope="row">文型弟子</th><td>150〜249点</td></tr>
+                <tr><th scope="row">文型見習い</th><td>0〜149点</td></tr>
+              </tbody>
+            </table>
+            <p class="rules-score-note">称号判定では負点を0点として扱います。開始演出と場流し中は制限時間に含みません。</p>
+          </div>
+          <div class="rules-detail">
+            <h4>カードの形は自動で変化</h4>
+            <p>第1〜第5文型（SV／SVC／SVO／SVOO／SVOC）に対応。手札では代名詞を主格、動詞を原形で表示し、場では役割や主語に合わせて変化します。</p>
+            <ul class="rules-form-examples">
+              <li><span class="rules-form-pair">we <span aria-hidden="true">→</span> <strong>us</strong></span><span class="rules-form-context">目的語（O）に置く</span></li>
+              <li><span class="rules-form-pair">I <span aria-hidden="true">→</span> <strong>myself</strong></span><span class="rules-form-context">SとOに同じIを置く</span></li>
+              <li><span class="rules-form-pair">love <span aria-hidden="true">→</span> <strong>loves</strong></span><span class="rules-form-context">主語がthe catのときVに置く</span></li>
+            </ul>
+          </div>
+          <div class="rules-detail">
+            <h4>対面プレイとPC操作</h4>
+            <p>スマホ2人戦ではプレイヤー2が画面の上側。場は両側からS→V→O/C→O₂/Cの順に読めます。開始演出はプレイヤー1側を右にして横から見ます。</p>
+            <p>PCではプレイヤー1の手札がA・S・D・F、置き先がQ・W・E・R。プレイヤー2は手札H・J・K・L、置き先Y・U・I・Oです。音は画面上部で切り替えられます。</p>
+          </div>
+        </section>
       </section>
     </div>
 

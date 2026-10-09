@@ -262,6 +262,7 @@
     later(() => { if (toast.isConnected) toast.remove(); }, duration);
   }
   function showMatchIntro() {
+    elements.intro.classList.toggle("is-face-to-face", state.settings.mode === "human");
     elements.intro.classList.remove("is-hidden");
     elements.intro.setAttribute("aria-hidden", "false");
     void elements.intro.offsetWidth;
@@ -621,9 +622,10 @@
     const title = RANK_TITLES.find((rank) => points >= rank.minimum);
     return { ...title, points };
   }
-  function showShihanPetals(enabled) {
-    elements.shihanPetals.classList.toggle("is-hidden", !enabled);
-    if (!enabled) {
+  function showShihanPetals(side) {
+    elements.shihanPetals.dataset.side = side || "";
+    elements.shihanPetals.classList.toggle("is-hidden", !side);
+    if (!side) {
       elements.shihanPetals.replaceChildren();
       return;
     }
@@ -644,8 +646,16 @@
       ? first.misses === second.misses ? null : first.misses < second.misses ? 0 : 1
       : first.score > second.score ? 0 : 1;
     const ranks = state.players.map((player) => rankForScore(player.score, state.settings.roundSeconds));
-    state.resultRankKey = ranks[leadingIndex ?? 0].key;
-    showShihanPetals(ranks.some((rank) => rank.key === "shihan"));
+    const effectRank = state.settings.mode === "cpu"
+      ? ranks[0]
+      : ranks.reduce((highest, rank) => rank.minimum > highest.minimum ? rank : highest);
+    state.resultRankKey = effectRank.key;
+    const firstShihan = ranks[0].key === "shihan";
+    const secondShihan = ranks[1].key === "shihan";
+    const petalsSide = state.settings.mode === "cpu" && !firstShihan
+      ? null
+      : firstShihan && secondShihan ? "both" : firstShihan ? "left" : secondShihan ? "right" : null;
+    showShihanPetals(petalsSide);
     $("#resultWinner").textContent = leadingIndex === null ? "引き分けですわ！" : `${state.players[leadingIndex].name}の勝ち！`;
     $("#resultRankNote").textContent = `${state.settings.roundSeconds}秒戦・称号は60秒換算の得点で判定`;
     $("#resultScores").innerHTML = state.players.map((player, index) => `<div class="result-score" data-rank="${ranks[index].key}"><span class="result-score-name">${escapeHtml(player.name)}</span><span class="result-rank">${ranks[index].name}</span><span class="result-score-points"><strong>${player.score}</strong>点</span><small>お手つき ${player.misses}回<br />60秒換算 ${ranks[index].points}点</small></div>`).join("");
@@ -806,7 +816,7 @@
     const button = $("#soundButton");
     button.setAttribute("aria-pressed", String(sound.enabled));
     button.setAttribute("aria-label", sound.enabled ? "音をオフにする" : "音をオンにする");
-    button.querySelector("span").textContent = sound.enabled ? "音 ON" : "音 OFF";
+    button.querySelector("span").textContent = sound.enabled ? "音ON" : "音OFF";
   }
   function toggleTheme() {
     const root = document.documentElement;
