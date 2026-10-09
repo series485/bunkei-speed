@@ -292,7 +292,7 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
   body.gameplay-locked { position: fixed; inset: 0; width: 100%; }
   body.gameplay-locked .app-shell { display: flex; flex-direction: column; height: 100dvh; min-height: 0; }
   body.gameplay-locked .topbar { flex: 0 0 auto; }
-  body.gameplay-locked .game-screen { display: grid; flex: 1 1 auto; height: 100%; min-height: 0; grid-template-rows: auto minmax(0, .9fr) minmax(0, .95fr) minmax(0, 1.08fr); }
+  body.gameplay-locked .game-screen { display: grid; flex: 1 1 auto; height: 100%; min-height: 0; grid-template-rows: auto minmax(152px, .9fr) minmax(0, .95fr) minmax(193px, 1.08fr); }
   body.gameplay-locked .game-screen.is-face-to-face { min-height: 0; grid-template-rows: auto minmax(201px, .95fr) minmax(0, 1.25fr) minmax(201px, .95fr); }
   body.gameplay-locked .game-screen .player-zone { display: flex; flex-direction: column; min-height: 0; }
   body.gameplay-locked .game-screen .hand { flex: 0 0 auto; }
