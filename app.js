@@ -39,8 +39,8 @@
     hard: [450, 750],
   };
   const KEY_MAP = [
-    { cards: ["KeyA", "KeyS", "KeyD", "KeyF"], slots: ["KeyQ", "KeyW", "KeyE", "KeyR"], lane: "KeyG", labels: ["Q", "W", "E", "R"] },
-    { cards: ["KeyH", "KeyJ", "KeyK", "KeyL"], slots: ["KeyY", "KeyU", "KeyI", "KeyO"], lane: "Semicolon", labels: ["Y", "U", "I", "O"] },
+    { cards: ["KeyA", "KeyS", "KeyD", "KeyF"], slots: ["KeyQ", "KeyW", "KeyE", "KeyR"], labels: ["Q", "W", "E", "R"] },
+    { cards: ["KeyH", "KeyJ", "KeyK", "KeyL"], slots: ["KeyY", "KeyU", "KeyI", "KeyO"], labels: ["Y", "U", "I", "O"] },
   ];
 
   const NOUNS = [
@@ -89,7 +89,6 @@
     setup: $("#setupScreen"), game: $("#gameScreen"), result: $("#resultModal"),
     boards: $("#boards"), topHand: $("#handTop"), bottomHand: $("#handBottom"),
     topTargets: $("#targetsTop"), bottomTargets: $("#targetsBottom"),
-    topLanes: $("#lanesTop"), bottomLanes: $("#lanesBottom"),
     time: $("#timeLeft"), topScore: $("#scoreTop"), bottomScore: $("#scoreBottom"),
     phaseMessage: $("#phaseMessage"), lastSentence: $("#lastSentence"),
     hintTop: $("#hintTop"), hintBottom: $("#hintBottom"), lockTop: $("#lockTop"), lockBottom: $("#lockBottom"),
@@ -98,9 +97,8 @@
     shihanPetals: $("#shihanPetals"),
   };
   const state = {
-    settings: { mode: "human", boardCount: 1, roundSeconds: DEFAULT_ROUND_SECONDS, level: "normal" },
+    settings: { mode: "human", roundSeconds: DEFAULT_ROUND_SECONDS, level: "normal" },
     phase: "setup", pausedPhase: null, players: [], fields: [],
-    selectedLane: [0, 0],
     remainingMs: DEFAULT_ROUND_SECONDS * 1000, playStartedAt: 0, history: [], lastSentence: null,
     resultRankKey: null, rankMusicReady: false,
     epoch: 0, serial: 0, timers: [], cpuTimer: null, tickTimer: null,
@@ -306,8 +304,7 @@
     hideEndCurtain();
     hideBoardCountdown();
     state.players = [newPlayer("プレイヤー1"), newPlayer(state.settings.mode === "cpu" ? "CPU" : "プレイヤー2")];
-    state.fields = Array.from({ length: state.settings.boardCount }, emptyField);
-    state.selectedLane = [0, state.settings.boardCount === 2 ? 1 : 0];
+    state.fields = [emptyField()];
     state.remainingMs = state.settings.roundSeconds * 1000;
     state.history = [];
     state.lastSentence = null;
@@ -460,8 +457,7 @@
     clearTimeout(state.cpuTimer);
     state.cpuTimer = null;
     state.phase = "countdown";
-    state.fields = Array.from({ length: state.settings.boardCount }, emptyField);
-    state.selectedLane = [0, state.settings.boardCount === 2 ? 1 : 0];
+    state.fields = [emptyField()];
     state.players.forEach((player) => { player.selected = null; });
     playCue("flush");
     elements.boardCountdown.classList.remove("is-hidden");
@@ -488,13 +484,6 @@
     player.selected = cardIndex;
     render();
   }
-  function chooseLane(index, lane) {
-    if (state.phase !== "playing") return;
-    if (state.settings.mode === "cpu" && index === 1) return;
-    if (lane < 0 || lane >= state.fields.length) return;
-    state.selectedLane[index] = lane;
-    render();
-  }
   function chooseTarget(index, slot) {
     if (state.phase !== "playing") return;
     if (state.settings.mode === "cpu" && index === 1) return;
@@ -504,7 +493,7 @@
       announce("先に手札のカードを1枚選んでください", "good", 1150);
       return;
     }
-    const action = { cardIndex: player.selected, lane: state.selectedLane[index], slot };
+    const action = { cardIndex: player.selected, lane: 0, slot };
     attemptMove(index, action);
   }
   function chooseCpuAction(actions) {
@@ -555,40 +544,31 @@
     });
   }
   function renderControls(index) {
-    const laneContainer = index === 0 ? elements.bottomLanes : elements.topLanes;
     const targetContainer = index === 0 ? elements.bottomTargets : elements.topTargets;
     const isCpu = state.settings.mode === "cpu" && index === 1;
     const canAct = state.phase === "playing";
-    const signature = `${state.settings.boardCount}-${isCpu}`;
-    if (laneContainer.dataset.signature !== signature) {
-      laneContainer.innerHTML = isCpu ? "<span class=\"cpu-wait\">CPUが判断中…</span>" : state.settings.boardCount === 2
-        ? [0, 1].map((lane) => `<button type="button" class="lane-button" data-lane="${lane}">場 ${lane + 1}</button>`).join("") : "";
-      targetContainer.innerHTML = isCpu ? "" : SLOT_ORDER.map((slot, slotIndex) => `<button type="button" class="target-button" data-slot="${slot}"><span>${SLOT_META[slot].code}</span><kbd>${KEY_MAP[index].labels[slotIndex]}</kbd></button>`).join("");
-      laneContainer.dataset.signature = signature;
+    const signature = isCpu ? "cpu" : "player";
+    if (targetContainer.dataset.signature !== signature) {
+      targetContainer.innerHTML = isCpu ? "<span class=\"cpu-wait\">CPUが判断中…</span>" : SLOT_ORDER.map((slot, slotIndex) => `<button type="button" class="target-button" data-slot="${slot}"><span>${SLOT_META[slot].code}</span><kbd>${KEY_MAP[index].labels[slotIndex]}</kbd></button>`).join("");
+      targetContainer.dataset.signature = signature;
     }
     if (isCpu) return;
-    [...laneContainer.querySelectorAll("button")].forEach((button) => {
-      const active = state.selectedLane[index] === Number(button.dataset.lane);
-      button.classList.toggle("is-active", active);
-      button.setAttribute("aria-pressed", String(active));
-      button.disabled = !canAct;
-    });
     [...targetContainer.querySelectorAll("button")].forEach((button) => {
       button.disabled = !canAct;
     });
   }
   function renderBoards() {
-    elements.boards.innerHTML = state.fields.map((field, lane) => {
+    elements.boards.innerHTML = state.fields.map((field) => {
       const slots = SLOT_ORDER.map((slot) => {
         const placement = field[slot];
         const surface = placement ? cardSurface(field, slot, completedPattern(field)) : null;
-        const topLabel = surface ? `${SLOT_META[slot].code} ${surface}` : SLOT_META[slot].code;
-        const content = placement
+        const faceContent = placement
           ? `<div class="field-card ${placement.card.type}">${cardMarkup({ ...placement.card, label: surface }, placement.owner, true)}</div>`
           : `<span class="slot-watermark" aria-hidden="true">${SLOT_META[slot].code}</span>`;
-        return `<div class="sentence-slot" data-top-label="${escapeHtml(topLabel)}" aria-label="${SLOT_META[slot].name}${surface ? `、${escapeHtml(surface)}` : "、空欄"}"><div class="slot-heading"><span class="slot-code">${SLOT_META[slot].code}</span><span class="slot-name">${SLOT_META[slot].name}</span></div>${content}</div>`;
+        const code = escapeHtml(SLOT_META[slot].code);
+        return `<div class="sentence-slot" aria-label="${SLOT_META[slot].name}${surface ? `、${escapeHtml(surface)}` : "、空欄"}"><div class="slot-heading"><span class="slot-code">${code}</span><span class="slot-name">${SLOT_META[slot].name}</span></div><div class="slot-face slot-face-top" data-code="${code}" aria-hidden="true">${faceContent}</div><div class="slot-face slot-face-bottom" data-code="${code}">${faceContent}</div></div>`;
       }).join("");
-      return `<div class="board-lane${field.locked ? " is-complete" : ""}"><div class="lane-heading"><strong>場 ${lane + 1}</strong><span>${escapeHtml(previewText(field))}</span></div><div class="sentence-board">${slots}</div></div>`;
+      return `<div class="board-lane${field.locked ? " is-complete" : ""}"><div class="lane-heading"><span>${escapeHtml(previewText(field))}</span></div><div class="sentence-board">${slots}</div></div>`;
     }).join("");
   }
   function renderScores() {
@@ -859,7 +839,7 @@
   function selectSetup(key, value) {
     if (key === "roundSeconds" && !ROUND_OPTIONS.includes(value)) return;
     state.settings[key] = value;
-    const attribute = { mode: "data-mode", boardCount: "data-boards", roundSeconds: "data-round-seconds", level: "data-level" }[key];
+    const attribute = { mode: "data-mode", roundSeconds: "data-round-seconds", level: "data-level" }[key];
     document.querySelectorAll(`[${attribute}]`).forEach((button) => {
       const selected = button.getAttribute(attribute) === String(value);
       button.classList.toggle("is-selected", selected);
@@ -873,7 +853,6 @@
       const button = event.target.closest("button");
       if (!button) return;
       if (button.dataset.mode) selectSetup("mode", button.dataset.mode);
-      if (button.dataset.boards) selectSetup("boardCount", Number(button.dataset.boards));
       if (button.dataset.roundSeconds) selectSetup("roundSeconds", Number(button.dataset.roundSeconds));
       if (button.dataset.level) selectSetup("level", button.dataset.level);
     });
@@ -881,12 +860,6 @@
       container.addEventListener("click", (event) => {
         const button = event.target.closest("[data-card-index]");
         if (button) chooseCard(index, Number(button.dataset.cardIndex));
-      });
-    });
-    [elements.bottomLanes, elements.topLanes].forEach((container, index) => {
-      container.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-lane]");
-        if (button) chooseLane(index, Number(button.dataset.lane));
       });
     });
     [elements.bottomTargets, elements.topTargets].forEach((container, index) => {
@@ -905,11 +878,6 @@
         const slotIndex = mapping.slots.indexOf(event.code);
         if (cardIndex >= 0) { event.preventDefault(); chooseCard(index, cardIndex); return; }
         if (slotIndex >= 0) { event.preventDefault(); chooseTarget(index, SLOT_ORDER[slotIndex]); return; }
-        if (event.code === mapping.lane && state.settings.boardCount === 2) {
-          event.preventDefault();
-          chooseLane(index, 1 - state.selectedLane[index]);
-          return;
-        }
       }
     });
     $("#startButton").addEventListener("click", startMatch);

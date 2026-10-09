@@ -7,8 +7,8 @@
     <meta name="description" content="文型道場の雰囲気を受け継ぐ、1台で遊べる早出し英文カードゲーム「文型一閃」" />
     <title>文型一閃 | 試作版</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=20261009-face" />
-    <script src="app.js?v=20261009-face" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261009-single-mirror" />
+    <script src="app.js?v=20261009-single-mirror" defer></script>
   </head>
   <body>
     <main class="app-shell">
@@ -56,13 +56,6 @@
             </div>
           </div>
           <div class="control-group">
-            <span class="control-label">場の数</span>
-            <div class="segmented" role="radiogroup" aria-label="場の数">
-              <button type="button" data-boards="1" role="radio" aria-checked="true" class="is-selected">1面</button>
-              <button type="button" data-boards="2" role="radio" aria-checked="false">2面</button>
-            </div>
-          </div>
-          <div class="control-group">
             <span class="control-label">制限時間</span>
             <div class="segmented segmented-three" role="radiogroup" aria-label="制限時間">
               <button type="button" data-round-seconds="20" role="radio" aria-checked="false">20秒</button>
@@ -79,7 +72,7 @@
             </div>
           </div>
           <button id="startButton" class="button button-primary button-large" type="button">▷　ゲームをはじめる</button>
-          <p class="setup-note">1台共有・20／40／60秒勝負。スマホ2人戦は、端末を挟んで向かい合って遊びます。PCは1面がおすすめ。</p>
+          <p class="setup-note">場は1つ。スマホ2人戦は、端末を挟んで向かい合って遊びます。</p>
         </div>
         </div>
       </section>
@@ -95,7 +88,6 @@
           <div class="zone-heading"><div><span class="player-emblem">弐</span><strong id="nameTop">プレイヤー2</strong><span class="zone-hint" id="hintTop">手札を選んで、置き先を押す</span></div><span id="lockTop" class="lock-note" aria-live="polite"></span></div>
           <div id="handTop" class="hand" aria-label="プレイヤー2の手札"></div>
           <div class="placement-controls">
-            <div id="lanesTop" class="lane-controls" aria-label="プレイヤー2の場の選択"></div>
             <div id="targetsTop" class="target-controls" aria-label="プレイヤー2の置き先"></div>
           </div>
         </section>
@@ -111,11 +103,10 @@
           <div class="zone-heading"><div><span class="player-emblem">壱</span><strong>プレイヤー1</strong><span class="zone-hint" id="hintBottom">手札を選んで、置き先を押す</span></div><span id="lockBottom" class="lock-note" aria-live="polite"></span></div>
           <div id="handBottom" class="hand" aria-label="プレイヤー1の手札"></div>
           <div class="placement-controls">
-            <div id="lanesBottom" class="lane-controls" aria-label="プレイヤー1の場の選択"></div>
             <div id="targetsBottom" class="target-controls" aria-label="プレイヤー1の置き先"></div>
           </div>
         </section>
-        <p class="keyboard-help">PC：プレイヤー1は手札 A S D F・置き先 Q W E R・場切替 G ／ プレイヤー2は手札 H J K L・置き先 Y U I O・場切替 ；</p>
+        <p class="keyboard-help">PC：プレイヤー1は手札 A S D F・置き先 Q W E R ／ プレイヤー2は手札 H J K L・置き先 Y U I O</p>
       </section>
     </main>
 
@@ -128,7 +119,7 @@
         <button id="closeRulesButton" class="modal-close" type="button" aria-label="遊び方を閉じる">×</button>
         <h2 id="rulesTitle">遊び方</h2>
         <ol class="rules-list">
-          <li>スマホ2人戦では、プレイヤー2が画面の上側に座ります。上側の手札・置き先・得点は、向かい側から読める向きで表示されます。</li>
+          <li>場は1つ。スマホ2人戦ではプレイヤー2が画面の上側に座ります。上側の手札・置き先・得点と、場に出たカードは向かい側からも読めます。</li>
           <li>手札は常に4枚。カードを選び、自分側の「S／V／O/C／O₂/C」ボタンで置きます。カードを出すと自動補充されます。</li>
           <li>正しく出すと10点、英文を完成させると追加30点。文法上置けないカードはお手つきで15点減点、約0.7秒待機です。</li>
           <li>双方に出せる手がなくなると、自動で場流し。場を隠して「3、2、1」を各0.5秒ずつ表示し、約1.5秒で再開します。</li>
