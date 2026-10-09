@@ -330,6 +330,8 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
   .target-button { min-height: 52px; }
   .target-controls { gap: 3px; }
   .target-button { gap: 2px; font-size: .82rem; }
+  .game-screen:not(.is-face-to-face) .player-bottom .placement-controls { min-height: 78px; align-items: stretch; }
+  .game-screen:not(.is-face-to-face) .player-bottom .target-button { min-height: 78px; font-size: .94rem; }
   .target-button kbd { display: none; }
   .table-area { padding: 5px; border-width: 5px; }
   .table-heading { min-height: 21px; margin-bottom: 3px; }
