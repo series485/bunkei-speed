@@ -294,7 +294,9 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
   .score-chip small { display: none; }
   .keyboard-help { display: none; }
 }
-@media (max-width: 520px) {
+/* iPadのデスクトップ用サイト表示でも、タッチ入力があれば対面用の配置にする。 */
+@media (max-width: 520px), (any-pointer: coarse) {
+  .toast-region, .keyboard-help { display: none; }
   html.gameplay-locked, body.gameplay-locked { height: 100%; overflow: hidden; overscroll-behavior-y: none; }
   body.gameplay-locked { position: fixed; inset: 0; width: 100%; }
   body.gameplay-locked .app-shell { display: flex; flex-direction: column; height: 100dvh; min-height: 0; }
@@ -387,6 +389,50 @@ html[data-theme="dark"] .result-score[data-rank="shihan"] .result-rank { color: 
 }
 @media (max-width: 360px) {
   .header-actions .button { padding-inline: 3px; font-size: .59rem; }
+}
+@media (min-width: 521px) and (any-pointer: coarse) {
+  :root {
+    --touch-card-size: clamp(72px, 12dvh, 140px);
+    --touch-target-size: clamp(64px, 10dvh, 96px);
+    --touch-player-size: calc(var(--touch-card-size) + var(--touch-target-size) + 58px);
+  }
+  .app-shell { width: min(1240px, calc(100% - 24px)); padding: 8px 0 max(8px, env(safe-area-inset-bottom)); }
+  .topbar { display: flex; flex-wrap: wrap; gap: 12px; min-height: 48px; margin-bottom: 8px; padding-bottom: 8px; }
+  .brand-lockup h1 { font-size: clamp(1.7rem, 3vw, 2.55rem); }
+  .header-actions { display: flex; width: auto; margin-left: auto; gap: 6px; }
+  .header-actions .button { min-height: 40px; gap: 6px; padding: 0 10px; font-size: .8rem; }
+  .game-screen { gap: 6px; }
+  body.gameplay-locked .game-screen { grid-template-rows: auto minmax(calc(var(--touch-card-size) + 92px), .9fr) minmax(0, .95fr) minmax(var(--touch-player-size), 1.08fr); }
+  body.gameplay-locked .game-screen.is-face-to-face { grid-template-rows: auto minmax(var(--touch-player-size), .95fr) minmax(0, 1.25fr) minmax(var(--touch-player-size), .95fr); }
+  .scorebar { gap: 6px; }
+  .score-chip, .clock-chip { min-height: 48px; gap: 6px; padding: 4px 8px; }
+  .score-name { font-size: .8rem; }
+  .score-chip strong, .clock-chip strong { font-size: 1.3rem; }
+  .score-chip small, .clock-chip span { display: inline; }
+  .player-zone { padding: 8px 10px; }
+  .zone-heading { min-height: 25px; }
+  .zone-heading strong { font-size: 1rem; }
+  .hand { width: min(100%, calc(4 * var(--touch-card-size) + 18px)); align-self: center; gap: 6px; }
+  .game-screen .hand-card { height: var(--touch-card-size); padding: 5px; gap: 3px; }
+  .card-type { font-size: .56rem; }
+  .card-word { font-size: clamp(.9rem, 1.6vw, 1.1rem); }
+  .card-gloss { font-size: .6rem; }
+  .card-roles { font-size: .52rem; }
+  .game-screen.is-face-to-face .placement-controls, .game-screen:not(.is-face-to-face) .player-bottom .placement-controls { min-height: var(--touch-target-size); }
+  body.gameplay-locked .game-screen:not(.is-face-to-face) .player-bottom .placement-controls { flex-basis: var(--touch-target-size); }
+  .game-screen.is-face-to-face .target-button, .game-screen:not(.is-face-to-face) .player-bottom .target-button { min-height: var(--touch-target-size); font-size: 1rem; }
+  .table-area { padding: 7px; border-width: 6px; }
+  .board-lane { padding: 5px; }
+  .game-screen.is-face-to-face .sentence-slot { min-height: 0; }
+  .field-card .card-word { font-size: .9rem; }
+  .last-sentence { font-size: .7rem; }
+}
+@media (min-width: 521px) and (max-height: 680px) and (any-pointer: coarse) {
+  :root {
+    --touch-card-size: clamp(64px, 10dvh, 72px);
+    --touch-target-size: clamp(56px, 9dvh, 64px);
+  }
+  .score-chip small { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
