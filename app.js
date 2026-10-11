@@ -71,7 +71,7 @@
     return { type: "verb", label, third, gloss, patterns, complementTypes, focusPattern };
   }
   const VERB_DRAW_QUOTAS = { SV: 6, SVC: 5, SVO: 7, SVOO: 5, SVOC: 4 };
-  // 文型道場と同じ81語・対応文型・補語の種類を使用する。
+  // 文型道場の81語・対応文型・補語の種類を引き継ぎ、getにはSVOも追加する。
   const VERBS = [
     verb("run", "runs", "走る／Oを経営する", ["SV", "SVO"]),
     verb("sleep", "sleeps", "眠る", ["SV"]),
@@ -98,7 +98,7 @@
     verb("look", "looks", "〜に見える", ["SVC"], { SVC: ["adjective"] }),
     verb("feel", "feels", "〜に感じられる", ["SVC"], { SVC: ["adjective"] }),
     verb("turn", "turns", "〜になる", ["SVC"], { SVC: ["adjective"] }),
-    verb("get", "gets", "〜になる", ["SVC"], { SVC: ["adjective"] }),
+    verb("get", "gets", "〜になる／〜を得る", ["SVC", "SVO"], { SVC: ["adjective"] }),
     verb("go", "goes", "行く／Cになる", ["SV", "SVC"], { SVC: ["adjective"] }, "SVC"),
     verb("grow", "grows", "育つ／Cになる", ["SV", "SVC"], { SVC: ["adjective"] }, "SVC"),
     verb("seem", "seems", "〜のように見える", ["SVC"], { SVC: ["adjective"] }),

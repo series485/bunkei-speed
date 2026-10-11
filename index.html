@@ -8,7 +8,7 @@
     <title>文型一閃 | 試作版</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="style.css?v=20261011-touch-layout" />
-    <script src="app.js?v=20261011-grammar-and-scoring" defer></script>
+    <script src="app.js?v=20261011-get-svo" defer></script>
   </head>
   <body>
     <main class="app-shell">
@@ -157,7 +157,7 @@
           </div>
           <div class="rules-detail">
             <h4>複数の文型と補語</h4>
-            <p>動詞は文型道場と同じ文型をすべて取れます。たとえばmakeはSVO・SVOO・SVOC。短い文型が先に完成しないよう、SVOO・SVOCを作るときは4番目の枠（O₂/C）を先に置きます。runのSVOやgoのSVCを作るときも、SとVが揃う前にO/Cを置きます。</p>
+            <p>動詞は文型道場の対応文型を引き継ぎ、getはSVC（〜になる）・SVO（〜を得る）に対応します。たとえばmakeはSVO・SVOO・SVOC。短い文型が先に完成しないよう、SVOO・SVOCを作るときは4番目の枠（O₂/C）を先に置きます。runのSVOやgoのSVCを作るときも、SとVが揃う前にO/Cを置きます。</p>
             <p>make・let・help・haveのSVOCでは、SVを取れる動詞をCに原形のまま置けます。例：I make Tom cry.（私はトムを泣かせる。）OとCの関係は「Tomがcry（泣く）」です。名詞を4番目に置いた文は、動詞によってSVOOとSVOCの両方として扱われます。</p>
           </div>
           <div class="rules-detail">
