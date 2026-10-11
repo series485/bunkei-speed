@@ -10,10 +10,11 @@
     { minimum: 0, name: "文型見習い", key: "minarai" },
   ];
   const CARD_POINTS = 10;
-  const COMPLETE_POINTS = 30;
   const MISPLAY_POINTS = 15;
   const MISPLAY_LOCK_MS = 700;
-  const COMPLETION_HOLD_MS = 650;
+  const HAND_SIZE = 4;
+  const MAX_HAND_VERBS = 2;
+  const MAX_HAND_ADJECTIVES = 1;
   const MATCH_INTRO_MS = 2100;
   const END_CURTAIN_MS = 1550;
   const BOARD_COUNTDOWN_STEP_MS = 500;
@@ -66,22 +67,97 @@
     ["busy", "忙しい"], ["quiet", "静かな"], ["famous", "有名な"], ["strong", "強い"],
     ["empty", "空の"], ["open", "開いた"], ["warm", "暖かい"], ["tired", "疲れた"],
   ];
+  function verb(label, third, gloss, patterns, complementTypes = {}, focusPattern = patterns[0]) {
+    return { type: "verb", label, third, gloss, patterns, complementTypes, focusPattern };
+  }
+  const VERB_DRAW_QUOTAS = { SV: 6, SVC: 5, SVO: 7, SVOO: 5, SVOC: 4 };
+  // 文型道場と同じ81語・対応文型・補語の種類を使用する。
   const VERBS = [
-    ["run", "runs", "走る", "SV"], ["sleep", "sleeps", "眠る", "SV"],
-    ["laugh", "laughs", "笑う", "SV"], ["arrive", "arrives", "到着する", "SV"],
-    ["be", "is", "〜である", "SVC", ["adjective", "noun"]],
-    ["become", "becomes", "〜になる", "SVC", ["adjective", "noun"]],
-    ["seem", "seems", "〜のように見える", "SVC", ["adjective"]],
-    ["look", "looks", "〜に見える", "SVC", ["adjective"]],
-    ["love", "loves", "〜を愛する", "SVO"], ["watch", "watches", "〜を見る", "SVO"],
-    ["use", "uses", "〜を使う", "SVO"], ["visit", "visits", "〜を訪れる", "SVO"],
-    ["give", "gives", "〜に…を与える", "SVOO"],
-    ["show", "shows", "〜に…を見せる", "SVOO"],
-    ["teach", "teaches", "〜に…を教える", "SVOO"],
-    ["make", "makes", "〜を…にする", "SVOC", ["adjective", "noun"]],
-    ["keep", "keeps", "〜を…のままにする", "SVOC", ["adjective", "noun"]],
-    ["call", "calls", "〜を…と呼ぶ", "SVOC", ["noun"]],
-    ["find", "finds", "〜が…だと分かる", "SVOC", ["adjective", "noun"]],
+    verb("run", "runs", "走る／Oを経営する", ["SV", "SVO"]),
+    verb("sleep", "sleeps", "眠る", ["SV"]),
+    verb("arrive", "arrives", "到着する", ["SV"]),
+    verb("laugh", "laughs", "笑う", ["SV"]),
+    verb("swim", "swims", "泳ぐ", ["SV"]),
+    verb("cry", "cries", "泣く", ["SV"]),
+    verb("dance", "dances", "踊る", ["SV"]),
+    verb("jump", "jumps", "跳ぶ", ["SV"]),
+    verb("listen", "listens", "耳を傾ける", ["SV"]),
+    verb("live", "lives", "暮らす", ["SV"]),
+    verb("play", "plays", "遊ぶ", ["SV"]),
+    verb("sit", "sits", "座る", ["SV"]),
+    verb("smile", "smiles", "ほほえむ", ["SV"]),
+    verb("stand", "stands", "立つ", ["SV"]),
+    verb("wait", "waits", "待つ", ["SV"]),
+    verb("walk", "walks", "歩く", ["SV"]),
+    verb("work", "works", "働く", ["SV"]),
+    verb("sing", "sings", "歌う", ["SV"]),
+    verb("move", "moves", "動く／Oを動かす", ["SV", "SVO"]),
+
+    verb("be", "is", "〜である・いる", ["SVC"], { SVC: ["adjective", "noun"] }),
+    verb("become", "becomes", "〜になる", ["SVC"], { SVC: ["adjective", "noun"] }),
+    verb("look", "looks", "〜に見える", ["SVC"], { SVC: ["adjective"] }),
+    verb("feel", "feels", "〜に感じられる", ["SVC"], { SVC: ["adjective"] }),
+    verb("turn", "turns", "〜になる", ["SVC"], { SVC: ["adjective"] }),
+    verb("get", "gets", "〜になる", ["SVC"], { SVC: ["adjective"] }),
+    verb("go", "goes", "行く／Cになる", ["SV", "SVC"], { SVC: ["adjective"] }, "SVC"),
+    verb("grow", "grows", "育つ／Cになる", ["SV", "SVC"], { SVC: ["adjective"] }, "SVC"),
+    verb("seem", "seems", "〜のように見える", ["SVC"], { SVC: ["adjective"] }),
+    verb("sound", "sounds", "〜のように聞こえる", ["SVC"], { SVC: ["adjective"] }),
+    verb("stay", "stays", "とどまる／Cのままでいる", ["SV", "SVC"], { SVC: ["adjective"] }, "SVC"),
+
+    verb("love", "loves", "〜を愛する", ["SVO"]),
+    verb("like", "likes", "〜を好む", ["SVO"]),
+    verb("use", "uses", "〜を使う", ["SVO"]),
+    verb("open", "opens", "開く／Oを開ける", ["SV", "SVO"], {}, "SVO"),
+    verb("visit", "visits", "〜を訪れる", ["SVO"]),
+    verb("watch", "watches", "〜を見る", ["SVO"]),
+    verb("break", "breaks", "壊れる／Oを壊す", ["SV", "SVO"], {}, "SVO"),
+    verb("carry", "carries", "〜を運ぶ", ["SVO"]),
+    verb("catch", "catches", "〜を捕まえる", ["SVO"]),
+    verb("clean", "cleans", "掃除する／Oを掃除する", ["SV", "SVO"], {}, "SVO"),
+    verb("close", "closes", "閉まる／Oを閉める", ["SV", "SVO"], {}, "SVO"),
+    verb("draw", "draws", "描く／Oを描く", ["SV", "SVO"], {}, "SVO"),
+    verb("eat", "eats", "食べる／Oを食べる", ["SV", "SVO"], {}, "SVO"),
+    verb("fix", "fixes", "〜を修理する", ["SVO"]),
+    verb("hear", "hears", "〜を聞く", ["SVO"]),
+    verb("hold", "holds", "〜を持つ", ["SVO"]),
+    verb("know", "knows", "〜を知っている", ["SVO"]),
+    verb("meet", "meets", "〜に会う", ["SVO"]),
+    verb("need", "needs", "〜を必要とする", ["SVO"]),
+    verb("read", "reads", "読む／Oを読む", ["SV", "SVO"], {}, "SVO"),
+    verb("remember", "remembers", "〜を覚えている", ["SVO"]),
+    verb("see", "sees", "〜を見る", ["SVO"]),
+    verb("study", "studies", "勉強する／Oを勉強する", ["SV", "SVO"], {}, "SVO"),
+    verb("take", "takes", "〜を取る", ["SVO"]),
+    verb("want", "wants", "〜をほしいと思う", ["SVO"]),
+    verb("write", "writes", "書く／Oを書く", ["SV", "SVO"], {}, "SVO"),
+    verb("push", "pushes", "〜を押す", ["SVO"]),
+    verb("pull", "pulls", "〜を引く", ["SVO"]),
+    verb("choose", "chooses", "〜を選ぶ", ["SVO"]),
+
+    verb("give", "gives", "OにO₂を与える", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("show", "shows", "OにO₂を見せる", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("teach", "teaches", "OにO₂を教える", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("tell", "tells", "OにO₂を伝える", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("buy", "buys", "OにO₂を買う", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("bring", "brings", "OにO₂を持ってくる", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("hand", "hands", "OにO₂を手渡す", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("lend", "lends", "OにO₂を貸す", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("pass", "passes", "OにO₂を渡す", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("sell", "sells", "OにO₂を売る", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("send", "sends", "OにO₂を送る", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("order", "orders", "OにO₂を注文する", ["SVO", "SVOO"], {}, "SVOO"),
+    verb("save", "saves", "OのためにO₂を取っておく", ["SVO", "SVOO"], {}, "SVOO"),
+
+    verb("keep", "keeps", "保つ／OをCのままにする", ["SVO", "SVOC"], { SVOC: ["adjective", "noun"] }, "SVOC"),
+    verb("make", "makes", "作る／OにO₂を作る／OをCにする", ["SVO", "SVOO", "SVOC"], { SVOC: ["adjective", "noun", "verb"] }, "SVOC"),
+    verb("call", "calls", "呼ぶ／OをCと呼ぶ", ["SVO", "SVOC"], { SVOC: ["noun"] }, "SVOC"),
+    verb("name", "names", "名づける／OをCと名づける", ["SVO", "SVOC"], { SVOC: ["noun"] }, "SVOC"),
+    verb("find", "finds", "見つける／OがCだと分かる", ["SVO", "SVOC"], { SVOC: ["adjective", "noun"] }, "SVOC"),
+    verb("leave", "leaves", "残す／OをCのままにしておく", ["SVO", "SVOC"], { SVOC: ["adjective"] }, "SVOC"),
+    verb("let", "lets", "OがVするのを許す", ["SVOC"], { SVOC: ["verb"] }),
+    verb("help", "helps", "助ける／OがVするのを手伝う", ["SVO", "SVOC"], { SVOC: ["verb"] }, "SVOC"),
+    verb("have", "has", "持っている／OにVしてもらう", ["SVO", "SVOC"], { SVOC: ["verb"] }, "SVOC"),
   ];
 
   const $ = (selector) => document.querySelector(selector);
@@ -104,7 +180,7 @@
     epoch: 0, serial: 0, timers: [], cpuTimer: null, tickTimer: null,
   };
 
-  function emptyField() { return { S: null, V: null, O1: null, X: null, locked: false }; }
+  function emptyField() { return { S: null, V: null, O1: null, X: null }; }
   function shuffle(items) {
     const result = [...items];
     for (let i = result.length - 1; i > 0; i -= 1) {
@@ -115,26 +191,55 @@
   }
   function buildStock() {
     const pool = [];
-    for (const item of NOUNS) for (let copy = 0; copy < 2; copy += 1) {
+    for (const item of NOUNS) for (let copy = 0; copy < 3; copy += 1) {
       pool.push({ type: "noun", person: 3, number: "singular", pronoun: false, ...item, id: ++state.serial });
     }
     for (const [label, gloss] of ADJECTIVES) pool.push({ type: "adjective", label, gloss, id: ++state.serial });
-    for (const [label, third, gloss, pattern, complements] of VERBS) {
-      pool.push({ type: "verb", label, third, gloss, patterns: [pattern], complements: complements || [], id: ++state.serial });
+    for (const card of drawMatchVerbs()) {
+      pool.push({ ...card, id: ++state.serial });
     }
     return shuffle(pool);
+  }
+  function drawMatchVerbs() {
+    return PATTERN_ORDER.flatMap((pattern) => {
+      const candidates = shuffle(VERBS.filter((card) => card.focusPattern === pattern));
+      if (pattern !== "SVOC") return candidates.slice(0, VERB_DRAW_QUOTAS[pattern]);
+      const chosen = [];
+      for (const complement of ["verb", "adjective", "noun"]) {
+        if (chosen.some((card) => card.complementTypes.SVOC?.includes(complement))) continue;
+        const card = candidates.find((candidate) => !chosen.includes(candidate) && candidate.complementTypes.SVOC?.includes(complement));
+        if (card) chosen.push(card);
+      }
+      return [...chosen, ...candidates.filter((card) => !chosen.includes(card))].slice(0, VERB_DRAW_QUOTAS[pattern]);
+    });
   }
   function newPlayer(name) {
     const player = { name, hand: [], stock: buildStock(), score: 0, misses: 0, selected: null, lockUntil: 0 };
     refill(player);
+    player.hand = shuffle(player.hand);
     return player;
   }
-  function drawCard(player) {
-    if (!player.stock.length) player.stock = buildStock();
-    return player.stock.pop();
+  function drawCard(player, replacingIndex = null) {
+    const retained = player.hand.filter((card, index) => index !== replacingIndex);
+    const nouns = retained.filter((card) => card.type === "noun").length;
+    const verbs = retained.filter((card) => card.type === "verb").length;
+    const adjectives = retained.filter((card) => card.type === "adjective").length;
+    const requiredType = !nouns ? "noun" : !verbs ? "verb" : null;
+    const allowed = (card) => (!requiredType || card.type === requiredType)
+      && (card.type !== "verb" || verbs < MAX_HAND_VERBS)
+      && (card.type !== "adjective" || adjectives < MAX_HAND_ADJECTIVES);
+    // 残る3枚を動かさず、補充する1枚の種類だけで偏りを防ぐ。
+    if (!player.stock.some(allowed)) player.stock.push(...buildStock().filter(allowed));
+    const indices = player.stock.flatMap((card, index) => allowed(card) ? [index] : []);
+    const index = indices[Math.floor(Math.random() * indices.length)];
+    return player.stock.splice(index, 1)[0];
   }
   function refill(player) {
-    while (player.hand.length < 4) player.hand.push(drawCard(player));
+    while (player.hand.length < HAND_SIZE) player.hand.push(drawCard(player));
+  }
+  function isComplementAllowed(verbCard, pattern, card) {
+    return (verbCard.complementTypes[pattern] || []).includes(card.type)
+      && (card.type !== "verb" || card.patterns.includes("SV"));
   }
   function candidatePatterns(field) {
     const occupied = SLOT_ORDER.filter((slot) => field[slot]);
@@ -148,14 +253,18 @@
         if (!card) continue;
         const role = definition.roles[slot];
         if (card.type === "adjective" && role !== "C") return false;
+        if (card.type === "verb" && (pattern !== "SVOC" || slot !== "X" || !card.patterns.includes("SV"))) return false;
         if (role === "C" && card.type === "noun" && card.pronoun) return false;
-        if (role === "C" && verb && !verb.complements.includes(card.type)) return false;
+        if (role === "C" && verb && !isComplementAllowed(verb, pattern, card)) return false;
       }
       return true;
     });
   }
+  function completedPatterns(field) {
+    return candidatePatterns(field).filter((pattern) => PATTERNS[pattern].slots.every((slot) => field[slot]));
+  }
   function completedPattern(field) {
-    return candidatePatterns(field).find((pattern) => PATTERNS[pattern].slots.every((slot) => field[slot])) || null;
+    return completedPatterns(field)[0] || null;
   }
   function nounCanOccupy(card, slot, field) {
     const same = SLOT_ORDER.filter((other) => field[other]?.card.type === "noun" && field[other].card.entity === card.entity);
@@ -164,12 +273,11 @@
     return slot === "S" ? ["O1", "X"].includes(same[0]) : same[0] === "S";
   }
   function possibleSlots(card) {
-    if (card.type === "verb") return ["V"];
+    if (card.type === "verb") return card.patterns.includes("SV") ? ["V", "X"] : ["V"];
     if (card.type === "adjective") return ["O1", "X"];
     return ["S", "O1", "X"];
   }
   function placementStatus(card, field, slot) {
-    if (field.locked) return "locked";
     if (field[slot]) return "occupied";
     if (!possibleSlots(card).includes(slot)) return "invalid";
     if (card.type === "noun" && !nounCanOccupy(card, slot, field)) return "invalid";
@@ -204,7 +312,7 @@
   function cardSurface(field, slot, pattern = null) {
     const card = field[slot]?.card;
     if (!card) return "";
-    if (card.type === "verb") return verbSurface(card, field);
+    if (card.type === "verb") return slot === "X" ? card.label : verbSurface(card, field);
     if (card.type === "adjective") return card.label;
     const role = pattern ? PATTERNS[pattern].roles[slot] : (slot === "S" ? "S" : "O");
     return nounSurface(card, role, field);
@@ -404,7 +512,7 @@
   function commitPlacement(index, action) {
     const player = state.players[index];
     const card = player.hand[action.cardIndex];
-    player.hand[action.cardIndex] = drawCard(player);
+    player.hand[action.cardIndex] = drawCard(player, action.cardIndex);
     state.fields[action.lane][action.slot] = { card, owner: index };
     state.fields[action.lane].lastOwner = index;
     player.score += CARD_POINTS;
@@ -413,25 +521,18 @@
   }
   function settleCompletions() {
     state.fields.forEach((field, lane) => {
-      if (field.locked) return;
-      const pattern = completedPattern(field);
-      if (!pattern) return;
-      field.locked = true;
+      const patterns = completedPatterns(field);
+      if (!patterns.length) return;
+      const pattern = patterns[0];
       const winner = field.lastOwner;
-      state.players[winner].score += COMPLETE_POINTS;
       const english = sentenceText(field, pattern);
-      const record = { english, pattern, owner: winner, lane, time: Math.ceil(remainingMs() / 1000) };
+      const record = { english, pattern, patterns, owner: winner, lane, time: Math.ceil(remainingMs() / 1000) };
       state.history.unshift(record);
       state.lastSentence = record;
+      // 演出は完成履歴に残し、場の判定は同じ操作内ですぐ再開する。
+      state.fields[lane] = emptyField();
       announce(`${state.players[winner].name}が英文完成！ ${english}`, "gold", 2100);
       playCue("complete");
-      later(() => {
-        if (state.phase === "ended" || state.phase === "setup") return;
-        state.fields[lane] = emptyField();
-        render();
-        checkStall();
-        scheduleCpu();
-      }, COMPLETION_HOLD_MS);
     });
   }
   function attemptMove(index, action) {
@@ -442,7 +543,7 @@
     const field = state.fields[action.lane];
     if (!card || !field) return;
     const status = placementStatus(card, field, action.slot);
-    if (status === "locked" || status === "occupied") {
+    if (status === "occupied") {
       announce("その枠は使用中。カードは手札に戻ります。", "good", 1050);
       return;
     }
@@ -458,7 +559,6 @@
   }
   function checkStall() {
     if (state.phase !== "playing") return;
-    if (state.fields.some((field) => field.locked)) return;
     if (legalActions(0).length || legalActions(1).length) return;
     beginBoardCountdown();
   }
@@ -533,8 +633,8 @@
 
   function cardMarkup(card, owner = null, compact = false) {
     const typeLabel = { noun: "名詞", verb: "V・動詞", adjective: "形容詞" }[card.type];
-    const role = card.type === "verb" ? card.patterns.join("・") : card.type === "noun" ? "S・O・Cになれる" : "Cになれる";
-    return `<span class="card-type">${typeLabel}</span><span class="card-word">${escapeHtml(card.label)}</span><span class="card-gloss">${escapeHtml(card.gloss)}</span><span class="card-roles">${role}</span>${compact && owner !== null ? `<span class="owner-tag">${owner === 0 ? "P1" : "P2"}</span>` : ""}`;
+    const role = card.type === "verb" ? card.patterns.map((pattern) => `<span>${pattern}</span>`).join(" ") : card.type === "noun" ? "S・O・Cになれる" : "Cになれる";
+    return `<span class="card-type">${typeLabel}</span><span class="card-word">${escapeHtml(card.label)}</span><span class="card-gloss">${escapeHtml(card.gloss)}</span><span class="card-roles${card.type === "verb" ? " card-patterns" : ""}">${role}</span>${compact && owner !== null ? `<span class="owner-tag">${owner === 0 ? "P1" : "P2"}</span>` : ""}`;
   }
   function renderHands(index) {
     const player = state.players[index];
@@ -578,7 +678,7 @@
         const code = escapeHtml(SLOT_META[slot].code);
         return `<div class="sentence-slot" aria-label="${SLOT_META[slot].name}${surface ? `、${escapeHtml(surface)}` : "、空欄"}"><div class="slot-heading"><span class="slot-code">${code}</span><span class="slot-name">${SLOT_META[slot].name}</span></div><div class="slot-face" data-code="${code}">${faceContent}</div></div>`;
       }).join("");
-      return `<div class="board-lane${field.locked ? " is-complete" : ""}"><div class="lane-heading"><span>${escapeHtml(previewText(field))}</span></div><div class="sentence-board sentence-board-top" aria-hidden="true">${slots}</div><div class="sentence-board sentence-board-bottom">${slots}</div></div>`;
+      return `<div class="board-lane"><div class="lane-heading"><span>${escapeHtml(previewText(field))}</span></div><div class="sentence-board sentence-board-top" aria-hidden="true">${slots}</div><div class="sentence-board sentence-board-bottom">${slots}</div></div>`;
     }).join("");
   }
   function renderScores() {
@@ -621,7 +721,7 @@
     $("#rulesButton").disabled = state.phase === "countdown";
     if (state.lastSentence) {
       const record = state.lastSentence;
-      elements.lastSentence.innerHTML = `<strong>${escapeHtml(record.english)}</strong> <span>${record.pattern}・${PATTERNS[record.pattern].label} ／ ${escapeHtml(state.players[record.owner].name)}が完成</span>`;
+      elements.lastSentence.innerHTML = `<strong>${escapeHtml(record.english)}</strong> <span>${(record.patterns || [record.pattern]).map((pattern) => `${pattern}・${PATTERNS[pattern].label}`).join(" ／ ")} ／ ${escapeHtml(state.players[record.owner].name)}が完成</span>`;
     } else {
       elements.lastSentence.innerHTML = "<span>完成した英文がここに表示されます。</span>";
     }
@@ -669,7 +769,7 @@
     $("#resultRankNote").textContent = `${state.settings.roundSeconds}秒戦・称号は60秒換算の得点で判定`;
     $("#resultScores").innerHTML = state.players.map((player, index) => `<div class="result-score" data-rank="${ranks[index].key}"><span class="result-score-name">${escapeHtml(player.name)}</span><span class="result-rank">${ranks[index].name}</span><span class="result-score-points"><strong>${player.score}</strong>点</span><small>お手つき ${player.misses}回<br />60秒換算 ${ranks[index].points}点</small></div>`).join("");
     $("#resultHistory").innerHTML = state.history.length
-      ? state.history.slice(0, 12).map((entry) => `<li><strong>${escapeHtml(entry.english)}</strong>　${entry.pattern}・${PATTERNS[entry.pattern].label}　<span>［${escapeHtml(state.players[entry.owner].name)}］</span></li>`).join("")
+      ? state.history.slice(0, 12).map((entry) => `<li><strong>${escapeHtml(entry.english)}</strong>　${(entry.patterns || [entry.pattern]).map((pattern) => `${pattern}・${PATTERNS[pattern].label}`).join(" ／ ")}　<span>［${escapeHtml(state.players[entry.owner].name)}］</span></li>`).join("")
       : "<li>今回は完成した英文がありませんでした。</li>";
   }
 
@@ -913,5 +1013,12 @@
       if (button && !button.disabled) playEffect("click");
     });
   }
+  function renderVerbCatalog() {
+    $("#verbCatalogCount").textContent = `全${VERBS.length}語`;
+    $("#verbCatalogBody").innerHTML = [...VERBS]
+      .sort((left, right) => left.label.localeCompare(right.label, "en"))
+      .map((card) => `<tr><th scope="row">${escapeHtml(card.label)}</th><td>${card.patterns.join(" / ")}</td></tr>`).join("");
+  }
+  renderVerbCatalog();
   bindControls();
 })();

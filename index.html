@@ -7,8 +7,8 @@
     <meta name="description" content="文型道場の雰囲気を受け継ぐ、1台で遊べる早出し英文カードゲーム「文型一閃」" />
     <title>文型一閃 | 試作版</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=20261010-mobile-playfield-fit-2" />
-    <script src="app.js?v=20261010-mobile-playfield-lock" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261011-verb-patterns" />
+    <script src="app.js?v=20261011-grammar-and-scoring" defer></script>
   </head>
   <body>
     <main class="app-shell">
@@ -124,7 +124,7 @@
             <li><span class="rules-number" aria-hidden="true">1</span><span>2人対戦かCPU戦を選び、制限時間を20・40・60秒から決めます。CPUの速さも選べます。</span></li>
             <li><span class="rules-number" aria-hidden="true">2</span><span>両者同時に、4枚の手札からカードを選び、自分側の置き先ボタンで共有の場へ出します。出した位置だけ新しいカードに変わり、ほかの手札は動きません。</span></li>
             <li><span class="rules-number" aria-hidden="true">3</span><span>場は左からS・V・O/C・O₂/C。3・4番目の枠は、動詞に応じて目的語や補語になります。</span></li>
-            <li><span class="rules-number" aria-hidden="true">4</span><span>正しく置くと10点。必要な枠が埋まって英文が完成すると、さらに30点が入り、場のカードが流れます。</span></li>
+            <li><span class="rules-number" aria-hidden="true">4</span><span>正しく出したカード1枚につき10点。英文完成の追加点はありません。必要な枠が埋まると場のカードがすぐ流れ、続けて次の文を作れます。</span></li>
             <li><span class="rules-number" aria-hidden="true">5</span><span>置けない場所へ出すとお手つき。15点減点され、約0.7秒間は次のカードを出せません。</span></li>
             <li><span class="rules-number" aria-hidden="true">6</span><span>双方に出せる手がなくなると自動で場流し。場を隠して「3・2・1」を各0.5秒表示し、その間は時間と操作が止まります。</span></li>
             <li><span class="rules-number" aria-hidden="true">7</span><span>時間切れで得点の高い人が勝ち。同点ならお手つきの少ない人が勝ちです。</span></li>
@@ -154,6 +154,27 @@
               <li><span class="rules-form-pair">I <span aria-hidden="true">→</span> <strong>myself</strong></span><span class="rules-form-context">SとOに同じIを置く</span></li>
               <li><span class="rules-form-pair">love <span aria-hidden="true">→</span> <strong>loves</strong></span><span class="rules-form-context">主語がthe catのときVに置く</span></li>
             </ul>
+          </div>
+          <div class="rules-detail">
+            <h4>複数の文型と補語</h4>
+            <p>動詞は文型道場と同じ文型をすべて取れます。たとえばmakeはSVO・SVOO・SVOC。短い文型が先に完成しないよう、SVOO・SVOCを作るときは4番目の枠（O₂/C）を先に置きます。runのSVOやgoのSVCを作るときも、SとVが揃う前にO/Cを置きます。</p>
+            <p>make・let・help・haveのSVOCでは、SVを取れる動詞をCに原形のまま置けます。例：I make Tom cry.（私はトムを泣かせる。）OとCの関係は「Tomがcry（泣く）」です。名詞を4番目に置いた文は、動詞によってSVOOとSVOCの両方として扱われます。</p>
+          </div>
+          <div class="rules-detail">
+            <h4>手札の補充</h4>
+            <p>出したカードの位置だけ補充し、残りの手札は動かしません。名詞と動詞をそれぞれ最低1枚確保し、動詞は最大2枚、形容詞は最大1枚までにして、同じ種類だけが溜まるのを防ぎます。両プレイヤーとCPUに同じ補充ルールを使います。</p>
+          </div>
+          <div class="rules-detail">
+            <details id="verbCatalog" class="rules-verb-catalog">
+              <summary>収録動詞と文型 <span id="verbCatalogCount" class="rules-verb-count">全81語</span></summary>
+              <div class="rules-verb-content">
+                <p>文型道場と同じ81語を収録。補充用の山札には、主役の文型ごとにSV 6語・SVC 5語・SVO 7語・SVOO 5語・SVOC 4語の計27語を抽選します。表には各動詞が取れる文型をすべて載せています。</p>
+                <table class="rules-rank-table rules-verb-table" aria-label="収録動詞と取れる文型">
+                  <thead><tr><th scope="col">動詞</th><th scope="col">取れる文型</th></tr></thead>
+                  <tbody id="verbCatalogBody"></tbody>
+                </table>
+              </div>
+            </details>
           </div>
           <div class="rules-detail">
             <h4>対面プレイとPC操作</h4>

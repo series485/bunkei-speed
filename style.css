@@ -135,6 +135,8 @@ html[data-theme="dark"] .clock-chip { background: #423522; color: #f5d58f; }
 .card-word { align-self: center; overflow-wrap: anywhere; color: #17272c; font: 700 clamp(.76rem, 1.6vw, 1.12rem)/1.1 Georgia, "Times New Roman", serif; text-align: center; }
 .card-gloss { color: #526367; font-size: .56rem; line-height: 1.2; text-align: center; }
 .card-roles { overflow: hidden; border-top: 1px solid color-mix(in srgb, var(--card-ink) 25%, transparent); padding-top: 3px; color: var(--card-ink); font-size: .5rem; font-weight: 900; text-overflow: ellipsis; white-space: nowrap; }
+.card-patterns { display: flex; flex-wrap: wrap; gap: 1px 3px; white-space: normal; }
+.card-patterns span { white-space: nowrap; }
 .placement-controls { display: flex; align-items: center; gap: 7px; margin-top: 7px; }
 .target-button { min-height: 34px; border: 1px solid var(--line); border-radius: 6px; color: var(--text); background: var(--panel-soft); font-weight: 900; cursor: pointer; touch-action: manipulation; }
 .target-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; flex: 1 1 auto; }
@@ -155,7 +157,6 @@ html[data-theme="dark"] .board-countdown strong { color: #8acaac; text-shadow: 0
 .boards { display: grid; gap: 7px; }
 .board-lane { min-width: 0; padding: 7px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,.5); }
 html[data-theme="dark"] .board-lane { background: rgba(0,0,0,.16); }
-.board-lane.is-complete { border-color: var(--gold); box-shadow: inset 0 0 0 2px rgba(209,168,82,.3); }
 .lane-heading { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin-bottom: 5px; }
 .lane-heading strong { color: var(--green); font-size: .64rem; font-weight: 950; }
 .lane-heading span { overflow: hidden; color: var(--muted); font: 700 .78rem/1.2 Georgia, serif; text-overflow: ellipsis; white-space: nowrap; }
@@ -238,6 +239,12 @@ html[data-theme="light"] .match-intro span, html[data-theme="light"] .match-intr
 .rules-rank-table tbody th { font-weight: 800; text-align: left; white-space: nowrap; }
 .rules-rank-table tbody td { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
 .rules-detail .rules-score-note { margin-top: 9px; font-size: .76rem; }
+.rules-verb-catalog summary { cursor: pointer; font-size: .96rem; font-weight: 800; }
+.rules-verb-catalog summary:focus-visible { outline: 3px solid rgba(24,184,214,.55); outline-offset: 4px; }
+.rules-verb-count { margin-left: 6px; color: var(--muted); font-size: .78rem; font-weight: 600; }
+.rules-verb-content { padding-top: 12px; }
+.rules-verb-table tbody th { width: 28%; font-family: Georgia, "Times New Roman", serif; }
+.rules-verb-table tbody td { font-weight: 700; text-align: left; white-space: normal; }
 .result-modal { z-index: 1; text-align: center; }
 .result-kicker { margin-bottom: 8px; color: var(--green); font-size: .7rem; font-weight: 900; letter-spacing: .2em; }
 .result-winner { color: var(--green-dark); font: 900 1.4rem/1.25 "Yu Mincho", serif; }
